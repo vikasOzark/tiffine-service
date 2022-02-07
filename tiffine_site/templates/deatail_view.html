@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/deatail_view.css' %}">
+<div class="container">
+    <div class="product_detail">
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'images/dish_2.jpg' %}" alt="" class="img-thumbnail order-sm-2">
+            </div>
+            <div class="col order-sm-1">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet ex dicta quidem consequatur dolorum quae inventore molestiae totam dolores quasi, omnis cumque earum est enim accusantium nulla optio id soluta repellendus, facilis repudiandae! Magni enim fuga ex eveniet officia beatae inventore ratione? Nesciunt ipsa amet, quo quia distinctio facilis iusto.
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

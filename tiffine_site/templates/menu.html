@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+
+<div class="container ">
+    <div id="carouselExampleIndicators" class="carousel slide mt-3" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner h-50">
+          <div class="carousel-item active carousel_cls">
+            <img src="{% static 'images/dish_1.jpg' %}" height="300px"  class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item carousel_cl">
+            <img src="{% static 'images/dish_2.jpg' %}" height="300px" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item carousel_cl">
+            <img src="{% static 'images/dish_3.jpg' %}" height="300px" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    
+    <div class="d-flex justify-content-center p-1 mt-3 ">
+        <ul class="d-flex justify-content-evenly">
+            <li class="list-inline-item">All Dishes</li>
+            <li class="list-inline-item">Non Veg</li>
+            <li class="list-inline-item">Pure Veg</li>
+        </ul>
+    </div>
+    <hr>
+    <div class="">
+      <div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+        <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="{% url 'deatail-view' %}" class="btn btn-primary">Order now</a>
+        </div>
+    </div>
+    <div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+      <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Order now</a>
+      </div>
+    </div>
+    <div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+        <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Order now</a>
+        </div>
+    </div>
+    
+    <div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+      <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Order now</a>
+      </div>
+  </div>
+  <div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+    <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-primary">Order now</a>
+    </div>
+</div>
+<div class="card shadow-lg m-2 justify-content-sm-center d-inline-block" style="width: 18rem;">
+  <img src="{% static 'images/dish_1.jpg' %}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Order now</a>
+    <p class="float-end"> Rs: 180 </p>
+  </div>
+</div>
+
+  </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+.carousel .item {
+  height: 300px;
+}
+
+.item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 300px;
+}
+
+.carousel_cls {
+  height: 300px;
+  width: 100;
+  overflow: hidden;
+}
+
+.bg_card{
+    background-color: cornflowerblue;
+}
