@@ -4,16 +4,51 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/deatail_view.css' %}">
 <div class="container">
-    <div class="product_detail">
+    <div class="product_detail mt-2">
         <div class="row">
-            <div class="col">
+            <div class="col-md-5 col-sm-10">
                 <img src="{% static 'images/dish_2.jpg' %}" alt="" class="img-thumbnail order-sm-2">
             </div>
-            <div class="col order-sm-1">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet ex dicta quidem consequatur dolorum quae inventore molestiae totam dolores quasi, omnis cumque earum est enim accusantium nulla optio id soluta repellendus, facilis repudiandae! Magni enim fuga ex eveniet officia beatae inventore ratione? Nesciunt ipsa amet, quo quia distinctio facilis iusto.
+            <div class="col-md-5 col-sm-10 order-sm-1">
+                <h3>Soya chap with gravy</h3>
+                <strong>Price Rs: <span class="text-decoration-line-through opacity-50">150/-</span> 130/-</strong>
+                <h6 class="opacity-50"> <span class="text-danger">*</span>Points can be earn : 10</h6>
+                <p><strong>Discription : </strong> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique tenetur amet hic quo sed debitis sint sit adipisci illo reprehenderit repellat quia aperiam eos a non at officia, magnam, temporibus animi culpa alias minus, odio aliquam laboriosam.</p>
+                <p><strong>Engridiant : </strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam id, corporis iste excepturi suscipit numquam magni perspiciatis nostrum necessitatibus nihil consequatur provident. Adipisci, corporis?</p>
+                <a href="{% url 'payment-checkout' %}"><button class="btn btn-info bg-gradients shadow-sm">Place order</button></a>
+                <a href="#"><button class="btn btn-outline-success bg-gradients shadow-sm">Add Favorate</button></a>
             </div>
+        </div>
+        <p></p>
+        <div class=" row " >
+            <strong class="card-header">Reviews</strong>
+            <p></p>
+            <div class="col-md-12 col-sm-12 h-75" >
+                <div class="row card overflow-auto bg-success bg-opacity-10 m-2 p-2">
+                    <h4> <strong>User : </strong>Vikas</h4>
+                    <h5><strong>Rating : </strong>* * * * *</h5>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, corporis incidunt non aut esse sequi. Dolore maiores provident quisquam et odio numquam aliquam. Ullam aspernatur molestias numquam labore, vitae tempora!</p>
+                </div> 
+                <p></p>
+                <div class="row card overflow-auto bg-success bg-opacity-10 m-2 p-2">
+                    <h4> <strong>User : </strong>Vikas</h4>
+                    <h5><strong>Rating : </strong>* * * * *</h5>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, corporis incidunt non aut esse sequi. Dolore maiores provident quisquam et odio numquam aliquam. Ullam aspernatur molestias numquam labore, vitae tempora!</p>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="">
+            <h5 class="card-header">Rate Here </h5>
+            <p></p>
+            <input type="text" class="input-group-text input-group-lg" placeholder="Typing ...">
+            <input type="range" class="rank mt-1" >
+            <button type="submit" class="btn btn-dark d-flex">Comment</button>
         </div>
     </div>
 </div>
-
+<p></p>
 {% endblock %}
+
+
+{

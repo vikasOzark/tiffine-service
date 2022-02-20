@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+<div class="container mt-4" >
+    <div class="row border shadow m-1 p-1 bg-info bg-opacity-25">
+        <div class = "col p-1 bg-light" >
+            <h4> Order summury </h4> 
+            <ul class="list-group">
+                <li class= "border p-1 m-2 shadow list-unstyled " >
+                    <p>Paw bhagi</p>
+                </li>
+                <li class= "border p-1 m-2 shadow list-unstyled" >
+                    <p>Paw bhagi</p>
+                </li> 
+                <li class= "border p-1 m-2 shadow list-unstyled" >
+                    <p>Paw bhagi</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class = "row border shadow m-1 p-1 mt-4 ">
+        <div class = "col  bg-info bg-opacity-25">
+            <h4 > Payment summury </h4>
+            <div class="col p-1">
+                <h6>Total Amount : <strong>350</strong></h6>
+                <h6>Delivery charges : <strong>Free</strong></h6>
+                <h6>Discount : <strong>50</strong></h6>
+                <hr>
+                <h6>Grand Total : <strong>350</strong></h6>
+                <p></p>
+                <button class="btn btn-warning " type="button">Pay Online</button>
+                <button class="btn btn-success " type="button">Pay Cash</button>
+                <p class="d-inline opacity-25  ">* T & C Apply</p>
+            </div> 
+        </div>
+    </div>
+</div>
+    
+{% endblock %}
+
