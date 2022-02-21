@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from matplotlib.style import available
 
 
 class MainDishModel(models.Model):
@@ -11,6 +10,9 @@ class MainDishModel(models.Model):
     availablity = models.BooleanField(default=True)
     image = models.ImageField(upload_to='pictures')
     ingredients = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.name)
 
 
 class AddToFevorate(models.Model):

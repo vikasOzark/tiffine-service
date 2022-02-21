@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
+from .models import MainDishModel, AddToFevorate
 
 
 # Create your views here.
@@ -17,7 +18,13 @@ class IndexView(View):
 
 class MenuView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, template_name='menu.html')
+
+        menu_model = MainDishModel.objects.all()
+        template = 'menu.html'
+        context = {
+            'menu_model': menu_model
+        }
+        return render(request, template_name=template, context=context)
 
 
 class OrderPlace(View):
@@ -87,5 +94,15 @@ def login(request):
 
 def logout_user(request):
     logout(request)
-
     return redirect('index')
+
+
+def add_favorite(request):
+    if request.method == "GET":
+        prod_id = request.GET.get('item_id')
+        dish_obj = MainDishModel.objects.get(id=prod_id)
+        favorite = AddToFevorate(user=request.user, dish_name=dish_obj)
+        favorite.save()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 'Ni hua'})
