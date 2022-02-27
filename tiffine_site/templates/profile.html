@@ -1,0 +1,80 @@
+
+{% extends 'base.html' %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+
+</head>
+<body class="bg-info bg-opacity-10">
+<a href="{% url 'menu' %}"  class="m-2 text-decoration-none text-black p-1"> 
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-backward-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.79-2.907L8.5 7.028V5.5a.5.5 0 0 0-.79-.407L5 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407V8.972l2.71 1.935A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.79-.407z"/>
+    </svg> Go back
+</a>
+    <div class="container mt-3">
+        <div class="d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <img class="d-flex img-responsive img-thumbnail" height="80px" width="80px" src="{% static 'images/user-icon.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <h6><strong>Username :</strong> {{request.user}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <h6><strong>Email : </strong> {{request.user.email}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <h6><strong>Points :</strong> 15</h6>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row d-flex">
+            <div class="col-md-4 col-sm-12">
+                <h4 class="text-success">Address</h4>
+                <div class="d-flex p-2 bg-light rounded-1 border">
+                    <div class="m-1">
+                        <address class="d-inline-block">D-4/132 chhattarpur 100185 </address>
+                    </div>
+                    <div class="float-end m-1">
+                        <button class="btn-sm btn-warning"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                            Edit</button>
+
+                        <button class="btn-sm btn-danger "> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                            Delete</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 d-inline-block">
+                <h4 class="text-success">Order</h4>
+                <div class="d-flex p-2 bg-light rounded-1 border p-1">
+                    <p>chole chawal </p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 d-inline-block">
+                <h4 class="text-success">Payment History</h4>
+                <div class="d-flex p-2 bg-light rounded-1 border p-1">
+                    <p><strong>Date :</strong> 25/02/2022 ,<strong> Amount :</strong> 250 </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+    {% endblock content %}

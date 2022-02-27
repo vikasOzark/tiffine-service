@@ -1,3 +1,4 @@
+from ast import Add
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views import View
@@ -6,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from .models import MainDishModel, AddToFevorate
+from django.db.models import Q
 
 
 # Create your views here.
@@ -29,7 +31,12 @@ class MenuView(View):
 
 class OrderPlace(View):
     def get(self, request, *args, **kwargs):
-        return render(request, template_name='deatail_view.html')
+        dish_obj = MainDishModel.objects.get(pk=kwargs['pk'])
+        context = {
+            'dish_obj': dish_obj
+        }
+        template = 'deatail_view.html'
+        return render(request, template_name=template, context=context)
 
 
 class PaymentCheckout(View):
@@ -59,7 +66,6 @@ class RegisterView(View):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                print('yess')
                 auth_login(request, user)
                 messages.success(request, f"{user.username}, You successfully registered !",
                                  extra_tags='alert-success')
@@ -101,8 +107,22 @@ def add_favorite(request):
     if request.method == "GET":
         prod_id = request.GET.get('item_id')
         dish_obj = MainDishModel.objects.get(id=prod_id)
-        favorite = AddToFevorate(user=request.user, dish_name=dish_obj)
-        favorite.save()
-        return JsonResponse({'status': 'Save'})
-    else:
-        return JsonResponse({'status': 'Ni hua'})
+
+        is_favorite = AddToFevorate.objects.filter(
+            Q(user=request.user) & Q(dish_name=dish_obj)).exists()
+
+        if is_favorite == False:
+            save_fav = AddToFevorate(user=request.user, dish_name=dish_obj)
+            save_fav.save()
+            return JsonResponse({'status': 'Save'})
+        else:
+            favorite = AddToFevorate.objects.get(
+                Q(user=request.user) and Q(dish_name=dish_obj))
+            favorite.delete()
+            print('=== deleted ====')
+            return JsonResponse({'status': 'Deleted'})
+
+
+def user_profile(request):
+    template = 'profile.html'
+    return render(request, template_name=template)

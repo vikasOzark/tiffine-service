@@ -7,20 +7,20 @@
     <div class="product_detail mt-2">
         <div class="row">
             <div class="col-md-5 col-sm-10">
-                <img src="{% static 'images/dish_2.jpg' %}" alt="" class="img-thumbnail order-sm-2">
+                <img src="{{ dish_obj.image.url }}" alt="" class="img-thumbnail order-sm-2">
             </div>
             <div class="col-md-5 col-sm-10 order-sm-1">
-                <h3>Soya chap with gravy</h3>
-                <strong>Price Rs: <span class="text-decoration-line-through opacity-50">150/-</span> 130/-</strong>
+                <h3>{{dish_obj.name}}</h3>
+                <strong>Price Rs: <span class="text-decoration-line-through opacity-50">{{dish_obj.discounted}}/-</span> {{dish_obj.price}}/-</strong>
                 <h6 class="opacity-50"> <span class="text-danger">*</span>Points can be earn : 10</h6>
-                <p><strong>Discription : </strong> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique tenetur amet hic quo sed debitis sint sit adipisci illo reprehenderit repellat quia aperiam eos a non at officia, magnam, temporibus animi culpa alias minus, odio aliquam laboriosam.</p>
-                <p><strong>Engridiant : </strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam id, corporis iste excepturi suscipit numquam magni perspiciatis nostrum necessitatibus nihil consequatur provident. Adipisci, corporis?</p>
+                <p><strong>Discription : </strong> {{dish_obj.deatil}}</p>
+                <p><strong>Engridiant : </strong>{{dish_obj.ingredients}}</p>
                 <a href="{% url 'payment-checkout' %}"><button class="btn btn-info bg-gradients shadow-sm">Place order</button></a>
                 <a href="#"><button class="btn btn-outline-success bg-gradients shadow-sm">Add Favorate</button></a>
             </div>
         </div>
         <p></p>
-        <div class=" row " >
+        <div class="row" >
             <strong class="card-header">Reviews</strong>
             <p></p>
             <div class="col-md-12 col-sm-12 h-75" >
@@ -42,13 +42,27 @@
             <h5 class="card-header">Rate Here </h5>
             <p></p>
             <input type="text" class="input-group-text input-group-lg" placeholder="Typing ...">
-            <input type="range" class="rank mt-1" >
-            <button type="submit" class="btn btn-dark d-flex">Comment</button>
+            <p></p>
+            <h5>Star Rating</h5>
+            <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5" />
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+              </div>
+            <p></p>
+            <p></p>
+            <button type="submit" class="btn btn-dark d-flex float-start">Comment</button>
+
         </div>
     </div>
 </div>
 <p></p>
 {% endblock %}
 
-
-{

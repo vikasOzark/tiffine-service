@@ -15,6 +15,11 @@
   overflow: hidden;
 }
 
-.bg_card{
-    background-color: cornflowerblue;
+.bg_card {
+  background-color: cornflowerblue;
+}
+
+.border-fav {
+  border: none;
+  background: rgba(155, 155, 155, 0.287);
 }
