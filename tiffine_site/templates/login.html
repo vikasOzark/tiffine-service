@@ -19,31 +19,34 @@
 }
 </style>
 
-<div class="containe">
-    <div class="">
-        <h4 class = "d-flex justify-content-center mb-3">Log in here</h4>
-        <form action="" method="post"> 
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name = 'username'>
-                <label for="floatingInput">Username</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name = "password">
-                <label for="floatingPassword">Password</label>
-            </div>
-            <h6>don't have a account <strong><a href="{% url 'register' %}">create here</a></strong></h6>
-            <button class="btn btn-success bg-gradient shadow"> Log In </button>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert {{ message.tags }} mt-2" role="alert">
-                        <h6>{{ message }}</h6>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </form>
+<body class="bg-dark bg-gradient bg-opacity-10">
+    <div class="containe">
+        <div class="">
+            <h4 class = "d-flex justify-content-center mb-3">Log in here</h4>
+            <form action="" method="post"> 
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name = 'username'>
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name = "password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <h6>don't have a account <strong><a href="{% url 'register' %}">create here</a></strong></h6>
+                <h6> <strong><a href="{% url 'password_reset' %}">Forget password</a></strong></h6>
+                <button class="btn btn-success bg-gradient shadow"> Log In </button>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }} mt-2" role="alert">
+                            <h6>{{ message }}</h6>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
     </div>
-</div>
+</body>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 {% endblock %}
