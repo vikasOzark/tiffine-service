@@ -77,13 +77,27 @@
 
   <div class="d-flex justify-content-center p-1 mt-3">
     <ul class="d-flex justify-content-evenly">
-      <li class="list-inline-item">All Dishes</li>
-      <li class="list-inline-item">Non Veg</li>
-      <li class="list-inline-item">Pure Veg</li>
+      <li class="list-inline-item">
+        <a href="#" class="text-decoration-none">
+          <img src="{% static 'images/menu.gif' %}" alt="">
+           <span class="text-black">All </span> <span> |</span>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a href="#" class="text-decoration-none">
+          <img src="{% static 'images/menu.gif' %}" alt="">
+          <span class="text-black">Non veg </span> <span> |</span>
+        </a> 
+      </li>
+      <li class="list-inline-item">
+        <a href="#" class="text-decoration-none">
+          <img src="{% static 'images/pizza.gif' %}" alt="">
+          <span class="text-black">Veg</span>
+        </a>
+      </li>
     </ul>
   </div>
   <hr />
-
   <div class="col-sm-8">
     <div class="d-flex justify-content-center row">
       {% for items in menu_model %}
@@ -114,39 +128,39 @@
           </h5>
           <p class="card-text">{{items.deatil}}</p>
           <a href="{% url 'deatail-view' items.id %}" class="btn btn-primary"
-            >Order now</a
-          >
+            >Order now</a>
         </div>
       </div>
+
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script src="https://cdn.lordicon.com/lusqsztk.js"></script>
+      <script>
+        $("#fav{{items.id}}").click(function () {
+          let prod_id = $("#input{{items.id}}").val();
+          _id = { item_id: prod_id };
+      
+          $.ajax({
+            url: '{% url "add-favorite" %}',
+            method: "get",
+            data: _id,
+            dataType: "json",
+            success: function (data) {
+              if (data.status == "Save") {
+                $("#fav-icon").attr("fill", data.data_coming);
+                console.log(data.data_coming);
+              }
+              if (data.status == "Deleted") {
+                $("#fav-icon").attr("fill", data.data_coming);
+                console.log(data.data_coming);
+              }
+            },
+          });
+        });
+      </script>
       {% endfor %}
     </div>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-<script>
-  $("#fav{{items.id}}").click(function () {
-    let prod_id = $("#input{{items.id}}").val();
-    _id = { item_id: prod_id };
-
-    $.ajax({
-      url: '{% url "add-favorite" %}',
-      method: "get",
-      data: _id,
-      dataType: "json",
-      success: function (data) {
-        if (data.status == "Save") {
-          $("#fav-icon").attr("fill", data.data_coming);
-          console.log(data.data_coming);
-        }
-        if (data.status == "Deleted") {
-          $("#fav-icon").attr("fill", data.data_coming);
-          console.log(data.data_coming);
-        }
-      },
-    });
-  });
-</script>
 
 {% endblock %}

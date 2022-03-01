@@ -45,6 +45,9 @@ class PaymentCheckout(View):
 
 
 class RegisterView(View):
+    def get(self, request):
+        return render(request, template_name='register.html')
+
     def post(self, request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -114,6 +117,7 @@ def add_favorite(request):
         if is_favorite == False:
             save_fav = AddToFevorate(user=request.user, dish_name=dish_obj)
             save_fav.save()
+            print('=====')
             return JsonResponse({'status': 'Save'})
         else:
             favorite = AddToFevorate.objects.get(
@@ -123,6 +127,32 @@ def add_favorite(request):
             return JsonResponse({'status': 'Deleted'})
 
 
+# @login_required(login_url='login')
 def user_profile(request):
     template = 'profile.html'
     return render(request, template_name=template)
+
+
+def change_passwd(request):
+    if request.method == "POST":
+        password = request.POST.get('password')
+        new_passwd = request.POST.get('new_passwd')
+        new_passwd2 = request.POST.get('new_passwd2')
+        if new_passwd == new_passwd2:
+            print(password)
+            user = authenticate(user=request.user, password=password)
+            print(user)
+            if user is not None:
+                passwd = User.objects.get(username=request.user)
+                passwd.set_password(new_passwd)
+                logout(request)
+                message = messages.info(
+                    request, 'Congrats, You have successfully chnaged your password !')
+                return JsonResponse(message)
+            else:
+                message = messages.warning(
+                    request, 'Your current password is wrong !', extra_tags='')
+                return JsonResponse(message)
+        else:
+            message = messages.info(request, 'Password supposed to be same  !')
+            return JsonResponse()

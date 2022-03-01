@@ -15,6 +15,7 @@ urlpatterns = [
     path('logout_user/', logout_user, name='logout_user'),
     path('add-favorite/', add_favorite, name='add-favorite'),
     path('user-profile/', user_profile, name='user-profile'),
+    path('change-pass', change_passwd, name='change-pass'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset_form.html'

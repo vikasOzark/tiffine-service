@@ -41,6 +41,39 @@
                 </div>
             </div>
         </div>
+        <div class=" float-end">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ><lord-icon
+                src="https://cdn.lordicon.com/ryyjawhw.json"
+                trigger="hover"
+                colors="primary:#121331"
+                state="hover-1"
+                style="width:30px;height:30px">
+            </lord-icon></a>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+            <div class="modal-content modal-bg ">
+                <div class="modal-header">
+                <h5 class="modal-title text-light" id="staticBackdropLabel">Change password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="">
+                    <div class="modal-body">
+                        <input type="password" class="form-control mb-2" id="current-passwd" placeholder="Current password">
+                        <input type="password" class="form-control mb-2" id="passwd1" placeholder="Password">
+                        <input type="password" class="form-control mb-2" id="passwd2" placeholder="Confirm password">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id = "change-pass" class="btn btn-success">Change</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        
         <hr>
         <div class="row d-flex">
             <div class="col-md-4 col-sm-12">
@@ -79,5 +112,32 @@
             </div>
         </div>
     </div>    
+    <script src="https://cdn.lordicon.com/lusqsztk.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $('#change-pass').click(function(){
+            let current_passwd = $("#current-passwd").val();
+            const passwd1 = $('#passwd1').val();
+            const passwd2 = $('#passwd2').val();
+
+            datas = {
+                password : current_passwd,
+                new_passwd : passwd1,
+                new_passwd2 : passwd2,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            }
+            $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token }}' } });
+            $.ajax({
+                url:"{% url 'change-pass' %}",
+                method : 'POST',
+                data : datas,
+                dataType : "json",
+                success: function(data){
+                    console.log(data)
+                }
+            })
+        })
+    </script>
+    
 </body>
     {% endblock content %}
