@@ -36,13 +36,13 @@
                 <h6>don't have a account <strong><a href="{% url 'register' %}">create here</a></strong></h6>
                 <h6> <strong><a href="{% url 'password_reset' %}">Forget password</a></strong></h6>
                 <button class="btn btn-success bg-gradient shadow"> Log In </button>
-                {% if messages %}
+                <!-- {% if messages %}
                     {% for message in messages %}
                         <div class="alert {{ message.tags }} mt-2" role="alert">
                             <h6>{{ message }}</h6>
                         </div>
                     {% endfor %}
-                {% endif %}
+                {% endif %} -->
             </form>
         </div>
     </div>

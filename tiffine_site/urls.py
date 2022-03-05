@@ -8,6 +8,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('menu/', MenuView.as_view(), name='menu'),
+    path('menu/<slug:slug>', MenuView.as_view(), name='menu'),
     path('order-deatial/<int:pk>', OrderPlace.as_view(), name='deatail-view'),
     path('payment-checkout/', PaymentCheckout.as_view(), name='payment-checkout'),
     path('register/', RegisterView.as_view(), name='register'),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('add-favorite/', add_favorite, name='add-favorite'),
     path('user-profile/', user_profile, name='user-profile'),
     path('change-pass', change_passwd, name='change-pass'),
+    path('filter_menu/', filter_menu, name='filter_menu'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset_form.html'

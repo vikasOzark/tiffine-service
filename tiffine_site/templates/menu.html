@@ -78,19 +78,19 @@
   <div class="d-flex justify-content-center p-1 mt-3">
     <ul class="d-flex justify-content-evenly">
       <li class="list-inline-item">
-        <a href="#" class="text-decoration-none">
+        <a href="{% url 'menu' 'all' %}" class="text-decoration-none">
           <img src="{% static 'images/menu.gif' %}" alt="">
            <span class="text-black">All </span> <span> |</span>
         </a>
       </li>
       <li class="list-inline-item">
-        <a href="#" class="text-decoration-none">
+        <a href="{% url 'menu' 'non_veg' %}" class="text-decoration-none" id="non_veg_id" >
           <img src="{% static 'images/menu.gif' %}" alt="">
-          <span class="text-black">Non veg </span> <span> |</span>
+          <span value="non_vag" id="type_non" class="text-black">Non veg </span> <span> |</span>
         </a> 
       </li>
       <li class="list-inline-item">
-        <a href="#" class="text-decoration-none">
+        <a href="{% url 'menu' 'veg' %}" class="text-decoration-none" value="veg" id="veg_id">
           <img src="{% static 'images/pizza.gif' %}" alt="">
           <span class="text-black">Veg</span>
         </a>
@@ -108,14 +108,22 @@
         <div class="card-body">
           <h5 class="card-title">
             {{ items.name }}
+                    
             <input type="hidden" value="{{items.id}}" id="input{{items.id}}" />
             <a class="float-end" id="fav{{items.id}}">
               <div class="border-fav p-2">
                 <svg
-                  id="fav-icon"
+                  id="fav-icon{{items.id}}"
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
-                  fill=""
+                
+                  {% for favotive in fav %}
+                      {% if favotive.dish_name.id == items.id %}
+                        fill="red"
+                      {% endif %}
+                      fir=""
+                  {% endfor %}           
+                  
                   height="16"
                   class="bi bi-bookmark-heart-fill"
                   viewBox="0 0 16 16">
@@ -131,36 +139,42 @@
             >Order now</a>
         </div>
       </div>
-
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <script src="https://cdn.lordicon.com/lusqsztk.js"></script>
-      <script>
-        $("#fav{{items.id}}").click(function () {
-          let prod_id = $("#input{{items.id}}").val();
-          _id = { item_id: prod_id };
       
-          $.ajax({
-            url: '{% url "add-favorite" %}',
-            method: "get",
-            data: _id,
-            dataType: "json",
-            success: function (data) {
-              if (data.status == "Save") {
-                $("#fav-icon").attr("fill", data.data_coming);
-                console.log(data.data_coming);
-              }
-              if (data.status == "Deleted") {
-                $("#fav-icon").attr("fill", data.data_coming);
-                console.log(data.data_coming);
-              }
-            },
-          });
-        });
-      </script>
+<script>
+  
+  $("#fav{{items.id}}").click(function() {
+    let prod_id = $("#input{{items.id}}").val();
+    _id = { item_id: prod_id };
+    console.log(_id)
+
+    $.ajax({
+      url: '{% url "add-favorite" %}',
+      method: "GET",
+      data: _id,
+      dataType: "json",
+      success: function (data) {
+        console.log(data.data_coming);
+        if (data.status == "Save") {
+          $("#fav-icon{{items.id}}").attr("fill", data.data_coming);
+        }
+
+        if (data.status == "Deleted") {
+          $("#fav-icon{{items.id}}").attr("fill", data.data_coming);
+          alert("item removed from favorite ");
+        }
+      },
+    });
+  });
+</script>
       {% endfor %}
     </div>
+  
+  
+    
+
   </div>
 </div>
-
-
+<script src="{% static 'js/ajax.js' %}"></script>
 {% endblock %}
