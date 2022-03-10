@@ -1,4 +1,4 @@
-from ast import Add
+from xml.etree.ElementTree import Comment
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views import View
@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
-from .models import MainDishModel, AddToFevorate, AddressModel, PhoneNumber
+from .models import MainDishModel, AddToFevorate, AddressModel, PhoneNumber, CommentAndRating
 from django.db.models import Q
-import json
 from django.core import serializers
+from .forms import AddressForm
 
 # Create your views here.
 
@@ -21,7 +21,6 @@ class IndexView(View):
 
 class MenuView(View):
     def get(self, request, slug=None, *args, **kwargs):
-        print(slug)
         favorite = AddToFevorate.objects.filter(user=request.user)
 
         if slug == 'veg':
@@ -34,11 +33,11 @@ class MenuView(View):
             menu_model = MainDishModel.objects.all()
 
         template = 'menu.html'
-        print(favorite)
 
         context = {
             'menu_model': menu_model,
-            'fav': favorite
+            'fav': favorite,
+
         }
         return render(request, template_name=template, context=context)
 
@@ -46,8 +45,17 @@ class MenuView(View):
 class OrderPlace(View):
     def get(self, request, *args, **kwargs):
         dish_obj = MainDishModel.objects.get(pk=kwargs['pk'])
+        favorite = AddToFevorate.objects.filter(user=request.user)
+        rating_obj = CommentAndRating.objects.filter(pk=kwargs['pk'])
+        # rating_obj = CommentAndRating.objects.all()
+
+        is_favorite = AddToFevorate.objects.filter(
+            Q(user=request.user) & Q(dish_name=kwargs['pk'])).exists()
         context = {
-            'dish_obj': dish_obj
+            'dish_obj': dish_obj,
+            'fav': favorite,
+            'is_favorite': is_favorite,
+            'rating_obj': rating_obj,
         }
         template = 'deatail_view.html'
         return render(request, template_name=template, context=context)
@@ -124,10 +132,9 @@ def add_favorite(request):
     if request.method == "GET":
         prod_id = request.GET.get('item_id')
         dish_obj = MainDishModel.objects.get(id=prod_id)
-        print(dish_obj)
+
         is_favorite = AddToFevorate.objects.filter(
             Q(user=request.user) & Q(dish_name=dish_obj)).exists()
-        print(is_favorite)
         if is_favorite == False:
             save_fav = AddToFevorate(user=request.user, dish_name=dish_obj)
             save_fav.save()
@@ -141,15 +148,16 @@ def add_favorite(request):
 
 @login_required(login_url='login')
 def user_profile(request):
-    address = AddressModel.objects.filter(user = request.user)
-    phone = PhoneNumber.objects.filter(user = request.user)
+    address = AddressModel.objects.filter(user=request.user)
+    phone = PhoneNumber.objects.filter(user=request.user)
 
     context = {
-        'address' : address,
-        'phone' : phone
+        'address': address,
+        'phone': phone,
+        'add_form': AddressForm
     }
     template = 'profile.html'
-    return render(request, template_name=template, context = context)
+    return render(request, template_name=template, context=context)
 
 
 def change_passwd(request):
@@ -162,7 +170,6 @@ def change_passwd(request):
         if new_passwd == new_passwd2:
             user = authenticate(
                 request, username=request.user, password=password)
-            print(user)
 
             if user is not None:
                 passwd = User.objects.get(username=request.user)
@@ -188,7 +195,6 @@ def change_passwd(request):
 def filter_menu(request):
     if request.method == 'GET':
         type_of = request.GET.get('type_val')
-        print(type_of)
         if type_of == 'non_veg':
             data = serializers.serialize(
                 "json", MainDishModel.objects.filter(type_of=type_of), fields=(
@@ -199,3 +205,95 @@ def filter_menu(request):
                 "json", MainDishModel.objects.filter(type_of=type_of), fields=(
                     'name', 'deatil', 'price', 'discounted', 'availablity', 'image', 'ingredients', 'type_of'))
             return JsonResponse({'status': 'working', 'datas': data})
+
+
+def sav_address(request):
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            street = request.POST['street']
+            locality = request.POST['locality']
+            landmark = request.POST['landmark']
+            city = request.POST['city']
+            pincode = request.POST['pincode']
+            id = request.POST.get('id')
+
+            if id == '':
+                address_obj = AddressModel(
+                    user=request.user,
+                    street=street,
+                    locality=locality,
+                    landmark=landmark,
+                    city=city,
+                    pincode=pincode,
+                )
+            else:
+                address_obj = AddressModel(
+                    user=request.user,
+                    id=id,
+                    street=street,
+                    locality=locality,
+                    landmark=landmark,
+                    city=city,
+                    pincode=pincode,
+                )
+            address_obj.save()
+
+            data_obj = AddressModel.objects.values()
+            data_obj = list(data_obj)
+
+            messages.success(request, 'Successfully saved address !')
+            return JsonResponse({'status': 'saved', 'data_obj': data_obj})
+        else:
+            messages.info(request, 'Address not saved !')
+            return JsonResponse({'status': 'Wrong', 'data_obj': data_obj})
+
+
+def delete_address(request):
+    if request.method == "POST":
+        id = request.POST.get('sid')
+        addr_obj = AddressModel.objects.get(pk=id)
+        addr_obj.delete()
+        return JsonResponse({'status': '200'})
+    else:
+        return JsonResponse({'status': '420'})
+
+
+def edit_address(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        addr_obj = AddressModel.objects.get(pk=id)
+        addr_data = {
+            'street': addr_obj.street,
+            'landmark': addr_obj.landmark,
+            'city': addr_obj.city,
+            'locality': addr_obj.locality,
+            'pincode': addr_obj.pincode,
+            'id': addr_obj.id
+        }
+        return JsonResponse(addr_data)
+
+
+def ratings(request):
+    if request.method == 'GET':
+        comment = request.GET.get('comment')
+        rating = request.GET.get('userRating')
+        id = request.GET.get('id')
+        dish_obj = MainDishModel.objects.get(pk=id)
+
+        model_ins = CommentAndRating(
+            user=request.user,
+            dish=dish_obj,
+            comment=comment,
+            rating=rating
+        )
+
+        model_ins.save()
+        model_obj = CommentAndRating.objects.values()
+        model_obj = list(model_obj)
+        return JsonResponse({'status': '200', 'objects': model_obj})
+
+
+def AddToDabba(request):
+    if request.method == 'GET':
+        id_ = request.GET.get('dish_id')

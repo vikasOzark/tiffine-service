@@ -22,11 +22,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CommentAndRating',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('comment', models.TextField(max_length=250)),
                 ('rating', models.IntegerField(default=0)),
-                ('timestamp', models.DateTimeField(default=django.utils.timezone.now)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('timestamp', models.DateTimeField(
+                    default=django.utils.timezone.now)),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, unique=False)),
             ],
         ),
     ]

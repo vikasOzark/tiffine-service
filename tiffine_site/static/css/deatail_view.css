@@ -1,41 +1,39 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-.rate {
+.rating {
   float: left;
-  height: 46px;
-  padding: 0 10px;
+  width: 200px;
 }
-.rate:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-}
-.rate:not(:checked) > label {
+.rating span {
   float: right;
-  width: 1em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
+  position: relative;
+}
+.rating span input {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+}
+.rating span label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  background: #ccc;
   font-size: 30px;
-  color: #ccc;
+  margin-right: 2px;
+  line-height: 30px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
 }
-.rate:not(:checked) > label:before {
-  content: "★ ";
-}
-.rate > input:checked ~ label {
-  color: #ffc700;
-}
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-  color: #deb217;
-}
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-  color: #c59b08;
+.rating span:hover ~ span label,
+.rating span:hover label,
+.rating span.checked label,
+.rating span.checked ~ span label {
+  background: #f90;
+  color: #fff;
 }
 
-/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+.materialize {
+  background-color: cadetblue;
+  transition: 500ms ease;
+}

@@ -18,6 +18,11 @@ urlpatterns = [
     path('user-profile/', user_profile, name='user-profile'),
     path('change-pass', change_passwd, name='change-pass'),
     path('filter_menu/', filter_menu, name='filter_menu'),
+    path('user-profile/sav_address/', sav_address, name='sav_address'),
+    path('delete-addr/', delete_address, name='delete-addr'),
+    path('edit-addr', edit_address, name='edit-addr'),
+    path('raring/', ratings, name='rating'),
+    path('add-to-dabba', AddToDabba, name='Add_to_dabba'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset_form.html'

@@ -3,66 +3,193 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/deatail_view.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 <div class="container">
     <div class="product_detail mt-2">
         <div class="row">
             <div class="col-md-5 col-sm-10">
-                <img src="{{ dish_obj.image.url }}" alt="" class="img-thumbnail order-sm-2">
+                <img src="{{ dish_obj.image.url }}" alt="" class="img-thumbnail materialboxed order-sm-2">
             </div>
+           
             <div class="col-md-5 col-sm-10 order-sm-1">
-                <h3>{{dish_obj.name}}</h3>
+                <h3>{{dish_obj.name}}
+                    <input type="hidden" value="{{dish_obj.id}}" id="input-id" />
+            <a class="float-end border rounded bg-info bg-opacity-10 shadow" id="fav-id">
+              <div class="p-2">
+                <svg
+                  id="fav-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  {% for favotive in fav %}
+                      {% if favotive.dish_name.id == dish_obj.id %}
+                        fill="red"
+                      {% endif %}
+                      fir=""
+                  {% endfor %}           
+                  
+                  height="16"
+                  class="bi bi-bookmark-heart-fill"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
+                  />
+                </svg>
+              </div>
+            </a>
+                </h3>
+                
                 <strong>Price Rs: <span class="text-decoration-line-through opacity-50">{{dish_obj.discounted}}/-</span> {{dish_obj.price}}/-</strong>
                 <h6 class="opacity-50"> <span class="text-danger">*</span>Points can be earn : 10</h6>
                 <p><strong>Discription : </strong> {{dish_obj.deatil}}</p>
                 <p><strong>Engridiant : </strong>{{dish_obj.ingredients}}</p>
-                <a href="{% url 'payment-checkout' %}"><button class="btn btn-info bg-gradients shadow-sm">Place order</button></a>
-                <a href="#"><button class="btn btn-outline-success bg-gradients shadow-sm">Add Favorate</button></a>
+                <a href="{% url 'payment-checkout' %}" class="shadow"><button class="btn btn-info bg-gradients shadow">Place order</button></a>
+                <a  class="btn btn-primary bg-gradient" id="add-dabba">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+                  </svg>
+                </a>
+
             </div>
         </div>
         <p></p>
-        <div class="row" >
-            <strong class="card-header">Reviews</strong>
-            <p></p>
-            <div class="col-md-12 col-sm-12 h-75" >
-                <div class="row card overflow-auto bg-success bg-opacity-10 m-2 p-2">
-                    <h4> <strong>User : </strong>Vikas</h4>
-                    <h5><strong>Rating : </strong>* * * * *</h5>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, corporis incidunt non aut esse sequi. Dolore maiores provident quisquam et odio numquam aliquam. Ullam aspernatur molestias numquam labore, vitae tempora!</p>
-                </div> 
-                <p></p>
-                <div class="row card overflow-auto bg-success bg-opacity-10 m-2 p-2">
-                    <h4> <strong>User : </strong>Vikas</h4>
-                    <h5><strong>Rating : </strong>* * * * *</h5>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, corporis incidunt non aut esse sequi. Dolore maiores provident quisquam et odio numquam aliquam. Ullam aspernatur molestias numquam labore, vitae tempora!</p>
+        <div class="row">
+          <strong class="card-header">Rate here</strong>
+            <div class="col-md-6 col-sm-12 mt-3">
+                <!-- <textarea  class="input-group-text input-group-lg w-auto " rows="4" cols="30" placeholder="Typing ..."></textarea> -->
+                <textarea class="form-control shadow" rows="5" id="comment" placeholder="Write some reviews..."></textarea>
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <div class=" col-md-6 col-sm-12 mt-3 rating ">
+              <p class="text-center text-success">Give us start rating : </p>
+                <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
+                <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
+                <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
+                <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
+                <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+            </div>
+            <div class="row mt-3">
+                <div class="d-flex col-md-6 col-sm-12 w-auto">
+                  <button class="btn btn-info shadow" id="push-review">Push review</button>
+                  
                 </div>
             </div>
+        <p></p>
+        </div>
+        
+        <div class="row" >
+            <strong class="card-header">Peoples reviews</strong>
+            <p></p>
+            <div class="col-md-12 col-sm-12 h-75" id='comment-box'>
+                {% for rate_obj in rating_obj %}
+                <div class='row card overflow-auto bg-success bg-opacity-10 m-2 p-2'>
+                  <h5><strong>Rating : </strong>{{rate_obj.rating}}</h5>
+                  <p>{{rate_obj.comment}}</p></div>
+                {% endfor %}
+                  
+            </div>
         </div>
         <p></p>
-        <div class="">
-            <h5 class="card-header">Rate Here </h5>
-            <p></p>
-            <input type="text" class="input-group-text input-group-lg" placeholder="Typing ...">
-            <p></p>
-            <h5>Star Rating</h5>
-            <div class="rate">
-                <input type="radio" id="star5" name="rate" value="5" />
-                <label for="star5" title="text">5 stars</label>
-                <input type="radio" id="star4" name="rate" value="4" />
-                <label for="star4" title="text">4 stars</label>
-                <input type="radio" id="star3" name="rate" value="3" />
-                <label for="star3" title="text">3 stars</label>
-                <input type="radio" id="star2" name="rate" value="2" />
-                <label for="star2" title="text">2 stars</label>
-                <input type="radio" id="star1" name="rate" value="1" />
-                <label for="star1" title="text">1 star</label>
-              </div>
-            <p></p>
-            <p></p>
-            <button type="submit" class="btn btn-dark d-flex float-start">Comment</button>
-
-        </div>
+        
     </div>
 </div>
 <p></p>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.lordicon.com/lusqsztk.js"></script>
+   
+<script>
+  
+    $("#fav-id").click(function() {
+      let prod_id = $("#input-id").val();
+      _id = { item_id: prod_id };
+  
+      $.ajax({
+        url: '{% url "add-favorite" %}',
+        method: "GET",
+        data: _id,
+        dataType: "json",
+        success: function (data) {
+          if (data.status == "Save") {
+            $("#fav-icon").attr("fill", data.data_coming);
+          }
+  
+          if (data.status == "Deleted") {
+            $("#fav-icon").attr("fill", data.data_coming);
+          }
+        },
+      });
+    });
+
+    $(document).ready(function(){
+    // Check Radio-box
+          $(".rating input:radio").attr("checked", false);
+
+          $('.rating input').click(function () {
+              $(".rating span").removeClass('checked');
+              $(this).parent().addClass('checked');
+          });
+
+          $('input:radio').change(
+            function(){
+              globalThis.userRating = this.value;
+          }); 
+      });
+
+      $('#push-review').click(function(){
+        var comment = $('#comment').val();
+        data = {
+          comment : comment,
+          userRating:userRating,
+          id : '{{ dish_obj.id }}'
+        }
+        $.ajax({
+          url : "{% url 'rating' %}",
+          method : 'GET',
+          data : data,
+          dataType : 'json',
+        success: function(data){
+          var obj_data = data.objects
+          $('#comment').val('')
+          for (i = 0; i< obj_data.length; i ++){
+            output = "<div class='row card overflow-auto bg-success bg-opacity-10 m-2 p-2'><h5><strong>Rating : </strong>"+obj_data[i].rating+"</h5><p>"+obj_data[i].comment+"</p></div>"
+          }
+          $('#comment-box').html(output);
+          $('#comment').val('');
+        }
+        })
+      })
+// picture view full page
+
+      document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.materialboxed');
+    var instances = M.Materialbox.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+     
+  // adding to the cart
+
+  $('#add-dabba').click(function(){
+    var dish_id = '{{dish_obj.id}}';
+    id = {
+      dish_id : dish_id
+    }
+    $.ajax({
+      url : "{% 'Add_to_dabba' %}",
+      method : 'GET',
+      data : id,
+      dataType : 'json',
+      success : function(data){
+
+      }
+    })
+  })
+
+    
+</script>
+   
 {% endblock %}
 
