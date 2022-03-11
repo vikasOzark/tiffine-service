@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="{% static 'css/deatail_view.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 <div class="container">
+  <a href="{% url 'payment-checkout' %}" class="float">
+    <i class="fa my-float">Place place</i> <!--fa fa-plus-->
+    </a>
     <div class="product_detail mt-2">
         <div class="row">
             <div class="col-md-5 col-sm-10">
@@ -42,12 +45,19 @@
                 <h6 class="opacity-50"> <span class="text-danger">*</span>Points can be earn : 10</h6>
                 <p><strong>Discription : </strong> {{dish_obj.deatil}}</p>
                 <p><strong>Engridiant : </strong>{{dish_obj.ingredients}}</p>
-                <a href="{% url 'payment-checkout' %}" class="shadow"><button class="btn btn-info bg-gradients shadow">Place order</button></a>
-                <a  class="btn btn-primary bg-gradient" id="add-dabba">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
-                  </svg>
-                </a>
+
+                <a  class="btn btn-primary bg-gradient text-center" id="add-dabba">
+                <!-- {% for cart in is_cart %} -->
+                  {% if is_c == True %}
+                    Remove
+                    {% else %}
+                    Add
+                  {% endif %}
+                <!-- {% endfor %} -->
+                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill text-center" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+                </svg>
+              </a>
 
             </div>
         </div>
@@ -81,17 +91,17 @@
             <p></p>
             <div class="col-md-12 col-sm-12 h-75" id='comment-box'>
                 {% for rate_obj in rating_obj %}
-                <div class='row card overflow-auto bg-success bg-opacity-10 m-2 p-2'>
-                  <h5><strong>Rating : </strong>{{rate_obj.rating}}</h5>
-                  <p>{{rate_obj.comment}}</p></div>
+                  <div class='row card overflow-auto bg-success bg-opacity-10 m-2 p-2'>
+                    <h5><strong>Rating : </strong>{{rate_obj.rating}}</h5>
+                    <p>{{rate_obj.comment}}</p>
+                  </div>
                 {% endfor %}
-                  
             </div>
         </div>
         <p></p>
-        
     </div>
 </div>
+
 <p></p>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.lordicon.com/lusqsztk.js"></script>
@@ -178,17 +188,25 @@
       dish_id : dish_id
     }
     $.ajax({
-      url : "{% 'Add_to_dabba' %}",
+      url : "{% url 'Add_to_dabba' %}",
       method : 'GET',
       data : id,
       dataType : 'json',
       success : function(data){
-
+        if(data.status == 'delete'){
+          $('#add-dabba').html('')
+          $('#add-dabba').html(data.is_cart)
+        };
+        if (data.status == 'save'){
+          $('#add-dabba').html('')
+          $('#add-dabba').html(data.is_cart)
+          
+        }
       }
     })
   })
 
-    
+
 </script>
    
 {% endblock %}

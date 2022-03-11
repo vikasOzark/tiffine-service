@@ -56,16 +56,16 @@ class PhoneNumber(models.Model):
     number = models.IntegerField()
 
 
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(MainDishModel, on_delete=models.CASCADE)
+
+
 class OrderDetails(models.Model):
     user = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     order_id = models.CharField(max_length=100)
     items = models.ForeignKey(
-        MainDishModel, blank=True, null=True, on_delete=models.SET_NULL)
+        Cart, blank=True, null=True, on_delete=models.SET_NULL)
     date_time = models.DateTimeField(default=timezone.now)
     amount = models.FloatField()
-
-
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(MainDishModel, on_delete=models.CASCADE)

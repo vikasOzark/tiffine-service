@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MainDishModel, AddToFevorate, CommentAndRating, AddressModel, PhoneNumber, OrderDetails
+from .models import MainDishModel, AddToFevorate, CommentAndRating, AddressModel, PhoneNumber, OrderDetails, Cart
 
 # Register your models here.
 
@@ -34,3 +34,8 @@ class Numbers(admin.ModelAdmin):
 @admin.register(OrderDetails)
 class OrderDetail(admin.ModelAdmin):
     list_display = ['id', 'user', 'order_id', 'items', 'date_time', 'amount']
+
+
+@admin.register(Cart)
+class OrderDetail(admin.ModelAdmin):
+    list_display = ['id', 'user', 'item']

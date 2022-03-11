@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
-from .models import MainDishModel, AddToFevorate, AddressModel, PhoneNumber, CommentAndRating
+from secretstorage import Item
+from .models import MainDishModel, AddToFevorate, AddressModel, PhoneNumber, CommentAndRating, Cart
 from django.db.models import Q
 from django.core import serializers
 from .forms import AddressForm
@@ -22,6 +23,7 @@ class IndexView(View):
 class MenuView(View):
     def get(self, request, slug=None, *args, **kwargs):
         favorite = AddToFevorate.objects.filter(user=request.user)
+        is_cart = Cart.objects.filter(user=request.user)
 
         if slug == 'veg':
             menu_model = MainDishModel.objects.filter(type_of='veg')
@@ -37,6 +39,7 @@ class MenuView(View):
         context = {
             'menu_model': menu_model,
             'fav': favorite,
+            'is_cart': is_cart
 
         }
         return render(request, template_name=template, context=context)
@@ -49,6 +52,12 @@ class OrderPlace(View):
         rating_obj = CommentAndRating.objects.filter(pk=kwargs['pk'])
         # rating_obj = CommentAndRating.objects.all()
 
+        is_cart = Cart.objects.filter(user=request.user)
+
+        is_c = Cart.objects.filter(
+            Q(user=request.user) & Q(item=dish_obj)).exists()
+
+        print('=====> ', is_c)
         is_favorite = AddToFevorate.objects.filter(
             Q(user=request.user) & Q(dish_name=kwargs['pk'])).exists()
         context = {
@@ -56,14 +65,24 @@ class OrderPlace(View):
             'fav': favorite,
             'is_favorite': is_favorite,
             'rating_obj': rating_obj,
+            'is_cart': is_cart,
+            'is_c': is_c
         }
         template = 'deatail_view.html'
         return render(request, template_name=template, context=context)
 
 
 class PaymentCheckout(View):
-    def get(self, request):
-        return render(request, template_name='payment_checkout.html')
+    def get(self, request, *args, **kwargs):
+
+        cart_instance = Cart.objects.filter(user=request.user)
+
+        template = 'payment_checkout.html'
+        context = {
+            'dish_instance': cart_instance
+        }
+
+        return render(request, template_name=template, context=context)
 
 
 class RegisterView(View):
@@ -146,7 +165,7 @@ def add_favorite(request):
             return JsonResponse({'status': 'Deleted', 'data_coming': 'black'})
 
 
-@login_required(login_url='login')
+@ login_required(login_url='login')
 def user_profile(request):
     address = AddressModel.objects.filter(user=request.user)
     phone = PhoneNumber.objects.filter(user=request.user)
@@ -297,3 +316,22 @@ def ratings(request):
 def AddToDabba(request):
     if request.method == 'GET':
         id_ = request.GET.get('dish_id')
+        item_obj = MainDishModel.objects.get(pk=id_)
+
+        is_cart = Cart.objects.filter(
+            Q(user=request.user) & Q(item=item_obj)).exists()
+        print('===> ', is_cart)
+
+        if is_cart == True:
+            obj = Cart.objects.get(Q(user=request.user) & Q(item=item_obj))
+            obj.delete()
+            return JsonResponse({'status': 'delete', 'is_cart': 'Add cart'})
+        else:
+            cart_instance = Cart(
+                user=request.user,
+                item=item_obj
+            )
+
+            cart_instance.save()
+
+            return JsonResponse({'status': 'save', 'is_cart': 'Added'})
