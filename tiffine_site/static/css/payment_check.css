@@ -1,3 +1,7 @@
 .card-color {
   background-color: rgba(0, 139, 139, 0.308);
 }
+
+.input-sm {
+  width: 50px;
+}

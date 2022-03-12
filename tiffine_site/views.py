@@ -317,15 +317,14 @@ def AddToDabba(request):
     if request.method == 'GET':
         id_ = request.GET.get('dish_id')
         item_obj = MainDishModel.objects.get(pk=id_)
-
         is_cart = Cart.objects.filter(
             Q(user=request.user) & Q(item=item_obj)).exists()
-        print('===> ', is_cart)
 
         if is_cart == True:
             obj = Cart.objects.get(Q(user=request.user) & Q(item=item_obj))
             obj.delete()
             return JsonResponse({'status': 'delete', 'is_cart': 'Add cart'})
+
         else:
             cart_instance = Cart(
                 user=request.user,
@@ -335,3 +334,16 @@ def AddToDabba(request):
             cart_instance.save()
 
             return JsonResponse({'status': 'save', 'is_cart': 'Added'})
+
+    if request.method == 'POST':
+        id_ = request.POST.get('dish_id')
+        print('========', id_)
+        try:
+            get_obj = Cart.objects.get(Q(pk=id_) & Q(user=request.user))
+            print('=====')
+            get_obj.delete()
+
+            return JsonResponse({'status': 'delete'})
+        except:
+            print('not working')
+            return JsonResponse({'status': '400'})
