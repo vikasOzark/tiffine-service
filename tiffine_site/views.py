@@ -337,13 +337,28 @@ def AddToDabba(request):
 
     if request.method == 'POST':
         id_ = request.POST.get('dish_id')
-        print('========', id_)
         try:
             get_obj = Cart.objects.get(Q(pk=id_) & Q(user=request.user))
-            print('=====')
             get_obj.delete()
 
             return JsonResponse({'status': 'delete'})
         except:
             print('not working')
             return JsonResponse({'status': '400'})
+
+
+def adding_quantity(request):
+    if request.method == 'GET':
+        item_id = request.GET.get('item_id')
+        qty_val = request.GET.get('quantity')
+
+        item_id = int(item_id)
+        qty_val = int(qty_val)
+
+        cart_obj = Cart.objects.get(
+            id=item_id,
+        )
+        cart_obj.quantity = qty_val
+        cart_obj.save()
+
+        return JsonResponse({'status': 'Updated'})

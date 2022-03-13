@@ -10,7 +10,7 @@ urlpatterns = [
     path('menu/', MenuView.as_view(), name='menu'),
     path('menu/<slug:slug>', MenuView.as_view(), name='menu'),
     path('order-deatial/<int:pk>', OrderPlace.as_view(), name='deatail-view'),
-    path('payment-checkout/>',
+    path('payment-checkout/',
          PaymentCheckout.as_view(), name='payment-checkout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', login, name='login'),
@@ -24,7 +24,9 @@ urlpatterns = [
     path('edit-addr', edit_address, name='edit-addr'),
     path('raring/', ratings, name='rating'),
     path('add-to-dabba', AddToDabba, name='Add_to_dabba'),
+    path('adding_quantity/', adding_quantity, name='adding_quantity'),
 
+    # these lins are for password reset with email link
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='password_reset_form.html'
     ), name='password_reset'),

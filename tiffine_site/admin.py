@@ -37,5 +37,5 @@ class OrderDetail(admin.ModelAdmin):
 
 
 @admin.register(Cart)
-class OrderDetail(admin.ModelAdmin):
-    list_display = ['id', 'user', 'item']
+class CartDetails(admin.ModelAdmin):
+    list_display = ['id', 'user', 'item', 'quantity']
