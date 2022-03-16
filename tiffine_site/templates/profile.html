@@ -1,5 +1,7 @@
 
 {% extends 'base.html' %} 
+{% block title %}{{request.user}}-Profile{% endblock title %}
+{% block profile%}active{%endblock %}
 {% block content %} 
 {% load static %}
 
@@ -25,7 +27,14 @@
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col">
-                    <h6><strong>Email : </strong> {{request.user.email}}</h6>
+                    <h6><strong><i class="bi bi-envelope-paper-fill"></i> : </strong> {{request.user.email}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong> {{phone.phone}}</h6>
                 </div>
             </div>
         </div>
@@ -82,7 +91,7 @@
                     </a>
                 </h4>
                 {% for addr_obj in address %}
-                    <div class=" p-2 bg-success bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                    <div class=" text-light p-2 bg-success bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
                         <p class="p-1">{{addr_obj.street}}, {{addr_obj.city}}, {{addr_obj.pincode}}  
 
                         <buttom class="float-end btn-edit m-1" id="add-{{addr_obj.id}}" data-sid="{{addr_obj.id}}" data-bs-toggle="modal" data-bs-target="#address-add" data-bs-toggle="modal" data-bs-target="#address-add">
@@ -127,27 +136,35 @@
                 </div>
                 </div>
             </div>
+            <!-- order section -->
 
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Order</h4>
-                <div class="d-flex p-2 bg-light rounded-1 border p-1">
-                    <p>chole chawal </p>
-                </div>
-
-                <div class="d-flex p-2 bg-light rounded-1 border p-1">
-                    <p>chole chawal </p>
-                </div>
-
-                <div class="d-flex p-2 bg-light rounded-1 border p-1">
-                    <p>chole chawal </p>
-                </div>
+                {% for order_obj in orders %}
+                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                        <h6 class="float-end  rounded shadow-sm border-end p-1 bg-light bg-opacity-50"><small>{{order_obj.date_time}}</small></h6>
+                        <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
+                        <p class="m-0"><strong>Item :</strong> {{order_obj.items.item.name}} </p>
+                        <p class="m-0"><strong>Quantity :</strong> {{order_obj.items.quantity}} </p>
+                    </div>
+                {% empty %}
+                    <p class="alert alert-info">Not found any Orders </p>
+                
+                {% endfor %}
 
             </div>
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Payment History</h4>
-                <div class="d-flex p-2 bg-light rounded-1 border p-1">
-                    <p><strong>Date :</strong> 25/02/2022 ,<strong> Amount :</strong> 250 </p>
-                </div>
+                {% for order_obj in orders %}
+                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                        <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
+                        <p class="m-0"><strong>Amount :</strong> {{order_obj.amount}} </p>
+                        <p class="m-0"><strong>Date :</strong> {{order_obj.date_time}} </p>
+                    </div>
+                {% empty %}
+                    <p class="alert alert-info">Not found any Orders </p>
+                
+                {% endfor %}
             </div>
         </div>
     </div>    
@@ -193,6 +210,7 @@
             let locality = $('#locality-id').val();
             let landmark = $('#landmark-id').val();
             let city = $('#city-id').val();
+            let phone = $('#phone-id').val();
             let pincode = $('#pincode-id').val();
 
             datas = { csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -201,6 +219,7 @@
                         locality : locality,
                         landmark : landmark,
                         city : city,
+                        phone : phone,
                         pincode : pincode,
                 };
 

@@ -25,6 +25,8 @@ urlpatterns = [
     path('raring/', ratings, name='rating'),
     path('add-to-dabba', AddToDabba, name='Add_to_dabba'),
     path('adding_quantity/', adding_quantity, name='adding_quantity'),
+    path('paymenthandler/', paymenthandler, name='paymenthandler'),
+
 
     # these lins are for password reset with email link
     path('password_reset/', auth_views.PasswordResetView.as_view(

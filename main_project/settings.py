@@ -133,3 +133,6 @@ EMAIL_HOST_USER = 'vk4041604@gmail.com'
 EMAIL_HOST_PASSWORD = 'urgwpjpxtvnjsuck'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+RAZOR_KEY_ID = 'rzp_test_CACIK9VunIicKe'
+RAZOR_KEY_SECRET = '0qr5Je1rrTpJNuo8mtVUmswr'

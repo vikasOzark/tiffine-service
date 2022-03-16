@@ -1,18 +1,22 @@
-from xml.etree.ElementTree import Comment
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
-from secretstorage import Item
-from .models import MainDishModel, AddToFevorate, AddressModel, PhoneNumber, CommentAndRating, Cart
+from .models import MainDishModel, AddToFevorate, AddressModel, CommentAndRating, Cart, OrderDetails
 from django.db.models import Q
 from django.core import serializers
 from .forms import AddressForm
+from django.views.decorators.csrf import csrf_exempt
+import razorpay
+from django.conf import settings
 
 # Create your views here.
+
+# RAZOR_KEY_ID = 'rzp_test_HwKecOzHzISyXr'
+# RAZOR_KEY_SECRET = 'bDcjVc789fO9Prz8kCDgm2yP'
 
 
 class IndexView(View):
@@ -72,17 +76,120 @@ class OrderPlace(View):
         return render(request, template_name=template, context=context)
 
 
-class PaymentCheckout(View):
-    def get(self, request, *args, **kwargs):
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
+
+class PaymentCheckout(View):
+    razorpay_client = razorpay.Client(
+        auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+
+    def get(self, request, *args, **kwargs):
         cart_instance = Cart.objects.filter(user=request.user)
+
+        currency = 'INR'
+        amount = 100  # Rs. 200
+
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                           currency=currency,
+                                                           payment_capture='0'))
+
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        # callback_url = 'paymenthandler'
 
         template = 'payment_checkout.html'
         context = {
-            'dish_instance': cart_instance
+            'dish_instance': cart_instance,
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_merchant_key': 'rzp_test_CACIK9VunIicKe',
+            'razorpay_amount': amount,
+            'currency': currency,
+            # 'callback_url': callback_url
         }
 
         return render(request, template_name=template, context=context)
+
+
+@csrf_exempt
+def paymenthandler(request):
+
+    # only accept POST request.
+    if request.method == "POST":
+        try:
+
+            # get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+
+            cart_items = Cart.objects.filter(user=request.user)
+            # item_instence = []
+            # for i in cart_items:
+            #     item_instence.append(i)
+
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(
+                params_dict)
+
+            if result is True:
+                amount = 100  # Rs. 200
+                try:
+                    # capture the payemt
+                    i = razorpay_client.payment.capture(payment_id, amount)
+
+                    item_obj = []
+                    qyt_obj = []
+                    for cart_obj in cart_items:
+                        x = MainDishModel.objects.get(pk=cart_obj.item.id)
+                        item_obj.append(x)
+                        qyt_obj.append(cart_obj.quantity)
+                    print('============> item_obj : ', item_obj)
+
+                    if len(item_obj) == 2:
+                        obj = OrderDetails(
+                            user=request.user,
+
+                            item_1=item_obj[0],
+                            qyt_1=qyt_obj[0],
+
+                            item_2=item_obj[1],
+                            qyt_2=qyt_obj[1]
+                        )
+
+                        obj.save()
+                        print('====== obj : ', obj)
+                    return render(request, 'index.html')
+                    # render success page on successful caputre of payment
+
+                except Exception as e:
+
+                    # if there is an error while capturing payment.
+                    print('====> if not captured : ', e)
+
+                    return render(request, 'faild.html')
+            else:
+
+                # if signature verification fails.
+                print('====> if resut false : ')
+
+                return render(request, 'faild.html')
+        except:
+
+            # if we don't find the required parameters in POST data
+            print('====> if  if we don t find the required parameters in POST data : ')
+
+            return HttpResponseBadRequest()
+    else:
+       # if other than POST request is made.
+        return HttpResponseBadRequest()
 
 
 class RegisterView(View):
@@ -168,12 +275,14 @@ def add_favorite(request):
 @ login_required(login_url='login')
 def user_profile(request):
     address = AddressModel.objects.filter(user=request.user)
-    phone = PhoneNumber.objects.filter(user=request.user)
+    orders = OrderDetails.objects.filter(user=request.user)
+    phone = AddressModel.objects.get(user=request.user)
 
     context = {
         'address': address,
-        'phone': phone,
-        'add_form': AddressForm
+        'add_form': AddressForm,
+        'orders': orders,
+        'phone': phone
     }
     template = 'profile.html'
     return render(request, template_name=template, context=context)
@@ -234,6 +343,7 @@ def sav_address(request):
             locality = request.POST['locality']
             landmark = request.POST['landmark']
             city = request.POST['city']
+            phone = request.POST['phone']
             pincode = request.POST['pincode']
             id = request.POST.get('id')
 
@@ -244,6 +354,7 @@ def sav_address(request):
                     locality=locality,
                     landmark=landmark,
                     city=city,
+                    phone=phone,
                     pincode=pincode,
                 )
             else:
@@ -254,6 +365,7 @@ def sav_address(request):
                     locality=locality,
                     landmark=landmark,
                     city=city,
+                    phone=phone,
                     pincode=pincode,
                 )
             address_obj.save()
@@ -288,6 +400,7 @@ def edit_address(request):
             'city': addr_obj.city,
             'locality': addr_obj.locality,
             'pincode': addr_obj.pincode,
+            'phone': addr_obj.phone,
             'id': addr_obj.id
         }
         return JsonResponse(addr_data)
@@ -362,3 +475,7 @@ def adding_quantity(request):
         cart_obj.save()
 
         return JsonResponse({'status': 'Updated'})
+
+
+def payment_handler(request):
+    pass

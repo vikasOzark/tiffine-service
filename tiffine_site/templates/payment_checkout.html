@@ -9,8 +9,8 @@
     
 <div class="container mt-4" >
     <div class="row border shadow-sm m-1 p-2 rounded item-check d-flex justify-content-center">
-        <h4 class="text-success opacity-50"> Item summury </h4> 
-
+        <h4 class=" text-success opacity-50">Cart Item  </h4> 
+        <h6 class="d-flex d-inline-block text-dark opacity-25">( Please remove the items that not needed ! )</h6>
         <div class="row ">
         {% for cart in dish_instance %}
                 <div class="col-sm-12 col-md-4  ">
@@ -112,7 +112,7 @@
                 <hr>
                 <h6>Grand Total : <strong>350</strong></h6>
                 <p></p>
-                <button class="btn btn-warning " type="button">Pay Online</button>
+                <button class="btn btn-warning " type="button" id="pay-btn">Pay Online</button>
                 <button class="btn btn-success " type="button">Pay Cash</button>
                 <p class="d-inline opacity-25  ">* T & C Apply</p>
             </div> 
@@ -153,4 +153,38 @@
    
     
 </script>
+<!-- <button id="rzp-button1">Pay</button> -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+   var options = {
+       
+       // Enter the Key ID generated from the Dashboard
+       key: "{{ razorpay_merchant_key }}",
+        
+       // Amount is in currency subunits.
+       // Default currency is INR. Hence,
+       // 50000 refers to 50000 paise
+       amount: "{{ razorpay_amount }}",
+       currency: "{{ currency }}",
+
+       // Your/store name.
+       name: "Tiffines",
+        
+       // Pass the `id` obtained in the response of Step 1
+       order_id: "{{ razorpay_order_id }}",
+       callback_url: "{% url 'paymenthandler' %}",
+    };
+      
+     // initialise razorpay with the options.
+        var rzp1 = new Razorpay(options);
+        
+        // add event listener to the payment button.
+        document.getElementById("pay-btn").onclick = function (e) {
+        rzp1.open();
+        e.preventDefault();
+    };
+     
+</script>
+
 {% endblock %}

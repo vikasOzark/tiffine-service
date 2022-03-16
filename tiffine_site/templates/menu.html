@@ -1,13 +1,15 @@
 {% extends 'base.html' %} 
+{% block title %}Menu{% endblock title %}
+{% block menu%}active{%endblock %}
+
 {% block content %} 
 {% load static %}
-{% block title %} menu {% endblock title %}
 
-<link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/menu_u.css' %}" />
 
 <div class="container">
   <a href="{% url 'payment-checkout' %}" class="float">
-    <i class="fa my-float">Place place</i> <!--fa fa-plus-->
+    <i class="fa my-float">Place order</i> <!--fa fa-plus-->
     </a>
   <div
     id="carouselExampleIndicators"
@@ -142,8 +144,8 @@
             </a>
           </h5>
           <p class="card-text">{{items.deatil}}</p>
-          <a href="{% url 'deatail-view' items.id %}" class="btn btn-outline-info bg-gradient"
-            >View Deatil</a>
+          <button href="{% url 'deatail-view' items.id %}" class="btn btn-outline-info bg-gradient"
+            >View Deatil</button>
 
             <button data="hello" class="btn btn-primary bg-gradient" id='add-dabba{{items.id}}'>
             {% for cart in is_cart %}
