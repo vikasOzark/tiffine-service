@@ -87,9 +87,16 @@ class PaymentCheckout(View):
     def get(self, request, *args, **kwargs):
         cart_instance = Cart.objects.filter(user=request.user)
 
-        currency = 'INR'
-        amount = 100  # Rs. 200
+        final_amount = 0
+        for obj in cart_instance:
+            qyt_ins = obj.quantity
+            amount_ins = obj.item.discounted
+            final_amount += amount_ins * qyt_ins
 
+        currency = 'INR'
+        amount = (final_amount + 50) * 100
+
+        plus_delivery = final_amount + 50
         # Create a Razorpay Order
         razorpay_order = razorpay_client.order.create(dict(amount=amount,
                                                            currency=currency,
@@ -107,6 +114,9 @@ class PaymentCheckout(View):
             'razorpay_amount': amount,
             'currency': currency,
             # 'callback_url': callback_url
+            'final_amount': final_amount,
+            'plus_delivery': plus_delivery,
+
         }
 
         return render(request, template_name=template, context=context)
@@ -131,19 +141,21 @@ def paymenthandler(request):
             }
 
             cart_items = Cart.objects.filter(user=request.user)
-            # item_instence = []
-            # for i in cart_items:
-            #     item_instence.append(i)
 
-            # verify the payment signature.
             result = razorpay_client.utility.verify_payment_signature(
                 params_dict)
 
+            final_amount = 0
+            for obj in cart_items:
+                qyt_ins = obj.quantity
+                amount_ins = obj.item.discounted
+                final_amount += amount_ins * qyt_ins
+
             if result is True:
-                amount = 100  # Rs. 200
+                amount = (final_amount + 50) * 100  # Rs. 200
                 try:
                     # capture the payemt
-                    i = razorpay_client.payment.capture(payment_id, amount)
+                    data = razorpay_client.payment.capture(payment_id, amount)
 
                     item_obj = []
                     qyt_obj = []
@@ -151,21 +163,119 @@ def paymenthandler(request):
                         x = MainDishModel.objects.get(pk=cart_obj.item.id)
                         item_obj.append(x)
                         qyt_obj.append(cart_obj.quantity)
-                    print('============> item_obj : ', item_obj)
+
+                    if len(item_obj) == 1:
+                        obj = OrderDetails(
+                            user=request.user,
+                            item_1=item_obj[0],
+                            qyt_1=qyt_obj[0],
+
+                            order_id=data['order_id'],
+                            amount=data['amount'],
+                            payment_id=data['id'],
+                            vpa=data['vpa'],
+                            upi_transaction_id=data['acquirer_data']['upi_transaction_id'],
+                            method=data['method'],
+                            wallet=['wallet'],
+                            card_id=data['card_id'],
+                            bank=data['bank']
+                        )
+                        obj.save()
 
                     if len(item_obj) == 2:
                         obj = OrderDetails(
                             user=request.user,
-
                             item_1=item_obj[0],
                             qyt_1=qyt_obj[0],
-
                             item_2=item_obj[1],
-                            qyt_2=qyt_obj[1]
-                        )
+                            qyt_2=qyt_obj[1],
 
+                            order_id=data['order_id'],
+                            amount=data['amount'],
+                            payment_id=data['id'],
+                            vpa=data['vpa'],
+                            upi_transaction_id=data['acquirer_data']['upi_transaction_id'],
+                            method=data['method'],
+                            wallet=['wallet'],
+                            card_id=data['card_id'],
+                            bank=data['bank']
+                        )
                         obj.save()
-                        print('====== obj : ', obj)
+
+                    if len(item_obj) == 3:
+                        obj = OrderDetails(
+                            user=request.user,
+                            item_1=item_obj[0],
+                            qyt_1=qyt_obj[0],
+                            item_2=item_obj[1],
+                            qyt_2=qyt_obj[1],
+                            item_3=item_obj[2],
+                            qyt_3=qyt_obj[2],
+
+                            order_id=data['order_id'],
+                            amount=data['amount'],
+                            payment_id=data['id'],
+                            vpa=data['vpa'],
+                            upi_transaction_id=data['acquirer_data']['upi_transaction_id'],
+                            method=data['method'],
+                            wallet=['wallet'],
+                            card_id=data['card_id'],
+                            bank=data['bank']
+                        )
+                        obj.save()
+
+                    if len(item_obj) == 4:
+                        obj = OrderDetails(
+                            user=request.user,
+                            item_1=item_obj[0],
+                            qyt_1=qyt_obj[0],
+                            item_2=item_obj[1],
+                            qyt_2=qyt_obj[1],
+                            item_3=item_obj[2],
+                            qyt_3=qyt_obj[2],
+                            item_4=item_obj[3],
+                            qyt_4=qyt_obj[3],
+
+                            order_id=data['order_id'],
+                            amount=data['amount'],
+                            payment_id=data['id'],
+                            vpa=data['vpa'],
+                            upi_transaction_id=data['acquirer_data']['upi_transaction_id'],
+                            method=data['method'],
+                            wallet=['wallet'],
+                            card_id=data['card_id'],
+                            bank=data['bank']
+                        )
+                        obj.save()
+
+                    if len(item_obj) == 5:
+                        obj = OrderDetails(
+                            user=request.user,
+                            item_1=item_obj[0],
+                            qyt_1=qyt_obj[0],
+                            item_2=item_obj[1],
+                            qyt_2=qyt_obj[1],
+                            item_3=item_obj[2],
+                            qyt_3=qyt_obj[2],
+                            item_4=item_obj[3],
+                            qyt_4=qyt_obj[3],
+                            item_5=item_obj[4],
+                            qyt_5=qyt_obj[4],
+
+                            order_id=data['order_id'],
+                            amount=data['amount'],
+                            payment_id=data['id'],
+                            vpa=data['vpa'],
+                            upi_transaction_id=data['acquirer_data']['upi_transaction_id'],
+                            method=data['method'],
+                            wallet=['wallet'],
+                            card_id=data['card_id'],
+                            bank=data['bank']
+                        )
+                        obj.save()
+
+                    cart_del = Cart.objects.filter(user=request.user)
+                    cart_del.delete()
                     return render(request, 'index.html')
                     # render success page on successful caputre of payment
 
@@ -276,13 +386,13 @@ def add_favorite(request):
 def user_profile(request):
     address = AddressModel.objects.filter(user=request.user)
     orders = OrderDetails.objects.filter(user=request.user)
-    phone = AddressModel.objects.get(user=request.user)
+    # phone = AddressModel.objects.get(user=request.user)
 
     context = {
         'address': address,
         'add_form': AddressForm,
         'orders': orders,
-        'phone': phone
+        # 'phone': phone
     }
     template = 'profile.html'
     return render(request, template_name=template, context=context)
@@ -479,3 +589,23 @@ def adding_quantity(request):
 
 def payment_handler(request):
     pass
+
+
+def total_amount(request):
+    if request.method == 'GET':
+
+        cart = Cart.objects.filter(user=request.user)
+
+        final_amount = 0
+        for obj in cart:
+            qyt_ins = obj.quantity
+            amount_ins = obj.item.discounted
+            final_amount += amount_ins * qyt_ins
+
+        plus_delivery = final_amount + 50
+
+        data = {
+            'final_amount': final_amount,
+            'plus_delivery': plus_delivery,
+        }
+    return JsonResponse(data)

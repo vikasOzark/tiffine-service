@@ -26,6 +26,7 @@ urlpatterns = [
     path('add-to-dabba', AddToDabba, name='Add_to_dabba'),
     path('adding_quantity/', adding_quantity, name='adding_quantity'),
     path('paymenthandler/', paymenthandler, name='paymenthandler'),
+    path('total_amount/', total_amount, name='total_amount'),
 
 
     # these lins are for password reset with email link

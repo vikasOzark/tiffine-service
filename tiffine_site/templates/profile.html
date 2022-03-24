@@ -2,6 +2,11 @@
 {% extends 'base.html' %} 
 {% block title %}{{request.user}}-Profile{% endblock title %}
 {% block profile%}active{%endblock %}
+
+{% block bottom %}
+fixed-bottom
+{% endblock %}
+    
 {% block content %} 
 {% load static %}
 
@@ -34,7 +39,7 @@
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col">
-                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong> {{phone.phone}}</h6>
+                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong></h6>
                 </div>
             </div>
         </div>

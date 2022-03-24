@@ -5,3 +5,8 @@
 .input-sm {
   width: 50px;
 }
+
+.text-span {
+  font-size: 0.7em;
+  color: rgba(0, 0, 0, 0.562);
+}

@@ -29,8 +29,9 @@ class UserAddress(admin.ModelAdmin):
 @admin.register(OrderDetails)
 class OrderDetail(admin.ModelAdmin):
     list_display = ['id', 'user', 'order_id', 'item_1', 'qyt_1',
-                    'item_2', 'qyt_2', 'item_3', 'item_4', 'item_5',
-                    'date_time', 'amount']
+                    'item_2', 'qyt_2', 'item_3', 'qyt_3', 'item_4', 'qyt_4', 'item_5', 'qyt_5',
+                    'date_time', 'amount', 'payment_id', 'upi_transaction_id', 'vpa', 'card_id',
+                    'bank', 'method', 'wallet']
 
 
 @admin.register(Cart)
