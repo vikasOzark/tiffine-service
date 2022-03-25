@@ -19,28 +19,32 @@
             <div class="col-md-5 col-sm-10 order-sm-1">
                 <h3>{{dish_obj.name}}
                     <input type="hidden" value="{{dish_obj.id}}" id="input-id" />
-            <a class="float-end border rounded bg-info bg-opacity-10 shadow" id="fav-id">
-              <div class="p-2">
-                <svg
-                  id="fav-icon"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  {% for favotive in fav %}
-                      {% if favotive.dish_name.id == dish_obj.id %}
-                        fill="red"
-                      {% endif %}
-                      fir=""
-                  {% endfor %}           
-                  
-                  height="16"
-                  class="bi bi-bookmark-heart-fill"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
-                  />
-                </svg>
-              </div>
-            </a>
+                    
+                {% if user.is_authenticated %}
+                  <a class="float-end border rounded bg-info bg-opacity-10 shadow" id="fav-id">
+                    <div class="p-2">
+                      <svg
+                        id="fav-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        {% for favotive in fav %}
+                            {% if favotive.dish_name.id == dish_obj.id %}
+                              fill="red"
+                            {% endif %}
+                            fir=""
+                        {% endfor %}           
+                        
+                        height="16"
+                        class="bi bi-bookmark-heart-fill"
+                        viewBox="0 0 16 16">
+                        <path
+                          d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
+                        />
+                      </svg>
+                    </div>
+                  </a>
+                {% endif %}
+
                 </h3>
                 
                 <strong>Price Rs: <span class="text-decoration-line-through opacity-50">{{dish_obj.discounted}}/-</span> {{dish_obj.price}}/-</strong>
@@ -49,13 +53,16 @@
                 <p><strong>Engridiant : </strong>{{dish_obj.ingredients}}</p>
 
                 <a  class="btn btn-primary bg-gradient text-center" id="add-dabba">
-                <!-- {% for cart in is_cart %} -->
+                {% if user.is_authenticated %}
                   {% if is_c == True %}
                     Remove
                     {% else %}
                     Add
                   {% endif %}
-                <!-- {% endfor %} -->
+
+                  {% else %}
+                  Add
+                {% endif %}
                 <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill text-center" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
                 </svg>

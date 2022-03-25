@@ -5,7 +5,7 @@
 {% block content %} 
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/menu_.css' %}" />
 
 <div class="container">
   {% if user.is_authenticated %}
@@ -17,10 +17,11 @@
             Favorite
           </a>
         </div>
-      {% endif %}
-  <a href="{% url 'payment-checkout' %}" class="float">
-    <i class="fa my-float">Place order</i> <!--fa fa-plus-->
-    </a>
+      
+      <a href="{% url 'payment-checkout' %}" class="float">
+        <i class="fa my-float">Place order</i> <!--fa fa-plus-->
+      </a>
+    {% endif %}
   <div
     id="carouselExampleIndicators"
     class="carousel slide mt-3"

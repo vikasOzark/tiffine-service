@@ -7,3 +7,6 @@
   top: 0;
   width: 100%;
 }
+.index {
+  z-index: 1;
+}

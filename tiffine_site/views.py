@@ -70,26 +70,31 @@ class MenuView(View):
 
 class OrderPlace(View):
     def get(self, request, *args, **kwargs):
+
         dish_obj = MainDishModel.objects.get(pk=kwargs['pk'])
-        favorite = AddToFevorate.objects.filter(user=request.user)
         rating_obj = CommentAndRating.objects.filter(pk=kwargs['pk'])
-        # rating_obj = CommentAndRating.objects.all()
 
-        is_cart = Cart.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            favorite = AddToFevorate.objects.filter(user=request.user)
+            is_cart = Cart.objects.filter(user=request.user)
+            is_c = Cart.objects.filter(
+                Q(user=request.user) & Q(item=dish_obj)).exists()
+            is_favorite = AddToFevorate.objects.filter(
+                Q(user=request.user) & Q(dish_name=kwargs['pk'])).exists()
 
-        is_c = Cart.objects.filter(
-            Q(user=request.user) & Q(item=dish_obj)).exists()
+            context = {
+                'fav': favorite,
+                'is_favorite': is_favorite,
+                'rating_obj': rating_obj,
+                'is_cart': is_cart,
+                'is_c': is_c,
+                'dish_obj': dish_obj,
+                'rating_obj': rating_obj,
+            }
 
-        print('=====> ', is_c)
-        is_favorite = AddToFevorate.objects.filter(
-            Q(user=request.user) & Q(dish_name=kwargs['pk'])).exists()
         context = {
             'dish_obj': dish_obj,
-            'fav': favorite,
-            'is_favorite': is_favorite,
             'rating_obj': rating_obj,
-            'is_cart': is_cart,
-            'is_c': is_c
         }
         template = 'deatail_view.html'
         return render(request, template_name=template, context=context)
@@ -401,17 +406,21 @@ def add_favorite(request):
             return JsonResponse({'status': 'Deleted', 'data_coming': 'black'})
 
 
-@ login_required(login_url='login')
+@login_required(login_url='login')
 def user_profile(request):
     address = AddressModel.objects.filter(user=request.user)
     orders = OrderDetails.objects.filter(user=request.user)
-    # phone = AddressModel.objects.get(user=request.user)
+    phones = AddressModel.objects.filter(user=request.user)
+
+    phone = []
+    for i in phones:
+        phone.append(i.phone)
 
     context = {
         'address': address,
         'add_form': AddressForm,
         'orders': orders,
-        # 'phone': phone
+        'phone': phone[0]
     }
     template = 'profile.html'
     return render(request, template_name=template, context=context)
@@ -535,6 +544,7 @@ def edit_address(request):
         return JsonResponse(addr_data)
 
 
+@login_required()
 def ratings(request):
     if request.method == 'GET':
         comment = request.GET.get('comment')
@@ -605,10 +615,6 @@ def adding_quantity(request):
         cart_obj.save()
 
         return JsonResponse({'status': 'Updated'})
-
-
-def payment_handler(request):
-    pass
 
 
 def total_amount(request):

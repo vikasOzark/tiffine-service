@@ -10,7 +10,7 @@ fixed-bottom
 {% block content %} 
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/profile_.css' %}" />
 
 </head>
 <body class="">
@@ -39,7 +39,7 @@ fixed-bottom
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col">
-                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong></h6>
+                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong> {{phone}}</h6>
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@ fixed-bottom
                     </a>
                 </h4>
                 {% for addr_obj in address %}
-                    <div class=" text-light p-2 bg-success bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                    <div class=" text-light p-2 bg-success bg-opacity-50 bg-gradient rounded-1 border shadow-x p-1 mb-2" >
                         <p class="p-1">{{addr_obj.street}}, {{addr_obj.city}}, {{addr_obj.pincode}}  
 
                         <buttom class="float-end btn-edit m-1" id="add-{{addr_obj.id}}" data-sid="{{addr_obj.id}}" data-bs-toggle="modal" data-bs-target="#address-add" data-bs-toggle="modal" data-bs-target="#address-add">
@@ -146,11 +146,10 @@ fixed-bottom
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Order</h4>
                 {% for order_obj in orders %}
-                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border   shadow-x p-1 mb-2" >
                         <h6 class="float-end  rounded shadow-sm border-end p-1 bg-light bg-opacity-50"><small>{{order_obj.date_time}}</small></h6>
                         <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
-                        <p class="m-0"><strong>Item :</strong> {{order_obj.items.item.name}} </p>
-                        <p class="m-0"><strong>Quantity :</strong> {{order_obj.items.quantity}} </p>
+                        <p class="m-0 text-dark"><strong class="text-light">Item :</strong> {{order_obj.item_1.name}}, {{order_obj.item_2.name}}, {{order_obj.item_3.name}}, {{order_obj.item_4.name}}, {{order_obj.item_5.name}}</p>
                     </div>
                 {% empty %}
                     <p class="alert alert-info">Not found any Orders </p>
@@ -161,7 +160,7 @@ fixed-bottom
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Payment History</h4>
                 {% for order_obj in orders %}
-                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-sm p-1 mb-2" >
+                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-x p-1 mb-2" >
                         <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
                         <p class="m-0"><strong>Amount :</strong> {{order_obj.amount}} </p>
                         <p class="m-0"><strong>Date :</strong> {{order_obj.date_time}} </p>
