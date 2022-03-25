@@ -27,6 +27,7 @@ urlpatterns = [
     path('adding_quantity/', adding_quantity, name='adding_quantity'),
     path('paymenthandler/', paymenthandler, name='paymenthandler'),
     path('total_amount/', total_amount, name='total_amount'),
+    path('favorite-temp/', favorite_temp, name='favorite-temp'),
 
 
     # these lins are for password reset with email link

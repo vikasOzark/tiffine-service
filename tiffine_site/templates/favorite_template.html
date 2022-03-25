@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %} Payment checkout {% endblock title %}
+
+
+{% block content %}
+{% load static %}
+<div class="container">
+    
+    {% for fav_obj in favorite_obj %}
+      <div class="card mb-3 d-inline-block  " style="max-width: 500px;">
+        <div class="row g-0 ">
+          <div class="col-md-4">
+            <img src="{{fav_obj.dish_name.image.url}}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8 bg-gradient bg-primary bg-opacity-25">
+            <div class="card-body">
+              <a href="{% url 'deatail-view' fav_obj.dish_name.id %}" class="text-decoration-none text-black"><h5 class="card-title m-0">{{fav_obj.dish_name.name}}</h5></a>
+              <p class="card-text m-0">{{ fav_obj.dish_name.deatil}}</p>
+              <p class="card-text m-1">Rs : {{ fav_obj.dish_name.discounted}} </p>
+                <input type="hidden" value="{{fav_obj.dish_name.id}}" id="input{{fav_obj.dish_name.id}}">
+                <a class="btn btn-success" id ="add-dabba{{fav_obj.dish_name.id}}">Add cart</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+        
+          $('#add-dabba{{fav_obj.dish_name.id}}').click(function(){
+            console.log('clicked')
+            let prod_id = $("#input{{fav_obj.dish_name.id}}").val();
+            console.log(prod_id)
+
+            id = {
+              dish_id : prod_id
+            }
+            $.ajax({
+              url : "{% url 'Add_to_dabba' %}",
+              method : 'GET',
+              data : id,
+              dataType : 'json',
+              success : function(data){
+                  console.log(data)
+                if(data.status == 'delete'){
+                  $('#add-dabba{{fav_obj.dish_name.id}}').html('')
+                  $('#add-dabba{{fav_obj.dish_name.id}}').html(data.is_cart)
+                };
+                if (data.status == 'save'){
+                  $('#add-dabba{{fav_obj.dish_name.id}}').html('')
+                  $('#add-dabba{{fav_obj.dish_name.id}}').html(data.is_cart)
+                  
+                }
+              }
+            })
+          })
+      </script>
+    {% endfor %}
+        
+</div>
+{% endblock  %}

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %} Payment checkout {% endblock title %}
-
+{% block bottom %}
+  fixed-bottom
+{% endblock %}
 
 {% block content %}
 {% load static %}
@@ -11,7 +13,7 @@
     <div class="row border shadow-sm m-1 p-2 rounded item-check d-flex justify-content-center">
         <h4 class=" text-success opacity-50">Cart Item <span class="text-span"> ( Max 5 items you can order )</span>  </h4> 
         <!-- <h6 class="d-flex d-inline-block text-dark opacity-25">( Please remove the items that not needed ! )</h6> -->
-        <div class="row ">
+        <div class="row">
         {% for cart in dish_instance %}
                 <div class="col-sm-12 col-md-4 effect ">
                     <div class="card mb-2 shadow-sm">

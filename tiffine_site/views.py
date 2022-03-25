@@ -26,27 +26,46 @@ class IndexView(View):
 
 class MenuView(View):
     def get(self, request, slug=None, *args, **kwargs):
-        favorite = AddToFevorate.objects.filter(user=request.user)
-        is_cart = Cart.objects.filter(user=request.user)
 
-        if slug == 'veg':
-            menu_model = MainDishModel.objects.filter(type_of='veg')
-        elif slug == 'non_veg':
-            menu_model = MainDishModel.objects.filter(type_of='non_veg')
-        elif slug == 'all':
-            menu_model = MainDishModel.objects.all()
+        if request.user.is_authenticated:
+            favorite = AddToFevorate.objects.filter(user=request.user)
+            is_cart = Cart.objects.filter(user=request.user)
+
+            if slug == 'veg':
+                menu_model = MainDishModel.objects.filter(type_of='veg')
+            elif slug == 'non_veg':
+                menu_model = MainDishModel.objects.filter(type_of='non_veg')
+            elif slug == 'all':
+                menu_model = MainDishModel.objects.all()
+            else:
+                menu_model = MainDishModel.objects.all()
+
+            template = 'menu.html'
+
+            context = {
+                'menu_model': menu_model,
+                'fav': favorite,
+                'is_cart': is_cart
+
+            }
+            return render(request, template_name=template, context=context)
         else:
-            menu_model = MainDishModel.objects.all()
 
-        template = 'menu.html'
+            if slug == 'veg':
+                menu_model = MainDishModel.objects.filter(type_of='veg')
+            elif slug == 'non_veg':
+                menu_model = MainDishModel.objects.filter(type_of='non_veg')
+            elif slug == 'all':
+                menu_model = MainDishModel.objects.all()
+            else:
+                menu_model = MainDishModel.objects.all()
 
-        context = {
-            'menu_model': menu_model,
-            'fav': favorite,
-            'is_cart': is_cart
+            template = 'menu.html'
 
-        }
-        return render(request, template_name=template, context=context)
+            context = {
+                'menu_model': menu_model,
+            }
+            return render(request, template_name=template, context=context)
 
 
 class OrderPlace(View):
@@ -555,6 +574,7 @@ def AddToDabba(request):
             )
 
             cart_instance.save()
+            print('added')
 
             return JsonResponse({'status': 'save', 'is_cart': 'Added'})
 
@@ -609,3 +629,14 @@ def total_amount(request):
             'plus_delivery': plus_delivery,
         }
     return JsonResponse(data)
+
+
+def favorite_temp(request):
+    favorite_obj = AddToFevorate.objects.filter(user=request.user)
+
+    template = 'favorite_template.html'
+    context = {
+        'favorite_obj': favorite_obj,
+    }
+
+    return render(request, template_name=template, context=context)

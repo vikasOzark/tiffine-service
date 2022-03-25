@@ -59,3 +59,25 @@
   /* -ms-transform: rotate(45deg);
   -webkit-transform: rotate(45deg); */
 }
+
+.float:hover {
+  transform: translateY(-8px);
+  box-shadow: 2px 8px 10px black;
+  color: white;
+}
+
+.float-x:hover {
+  transform: translateY(-8px);
+  box-shadow: 2px 8px 15px black;
+  transition: 0.3s ease-in-out;
+}
+.float-x {
+  transition: 0.3s ease-in-out;
+}
+
+.float-fav {
+  bottom: 112px;
+  border-radius: 100px;
+  text-align: center;
+  height: 36px;
+}

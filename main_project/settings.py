@@ -136,3 +136,6 @@ EMAIL_USE_TLS = True
 
 RAZOR_KEY_ID = 'rzp_test_CACIK9VunIicKe'
 RAZOR_KEY_SECRET = '0qr5Je1rrTpJNuo8mtVUmswr'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
