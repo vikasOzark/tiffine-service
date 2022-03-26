@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -59,6 +58,7 @@ class Cart(models.Model):
 
     def amount_plus(self):
         return self.item.discounted * self.quantity
+
 
 class OrderDetails(models.Model):
     user = models.ForeignKey(
