@@ -411,19 +411,30 @@ def user_profile(request):
     address = AddressModel.objects.filter(user=request.user)
     orders = OrderDetails.objects.filter(user=request.user)
     phones = AddressModel.objects.filter(user=request.user)
+    try:
+        phone = []
+        for i in phones:
+            phone.append(i.phone)
+        context = {
+            'address': address,
+            'add_form': AddressForm,
+            'orders': orders,
+            'phone': phone[0]
+        }
+        template = 'profile.html'
+        return render(request, template_name=template, context=context)
 
-    phone = []
-    for i in phones:
-        phone.append(i.phone)
+    except:
+        phone = ['Please add number while adding address !']
 
-    context = {
-        'address': address,
-        'add_form': AddressForm,
-        'orders': orders,
-        'phone': phone[0]
-    }
-    template = 'profile.html'
-    return render(request, template_name=template, context=context)
+        context = {
+            'address': address,
+            'add_form': AddressForm,
+            'orders': orders,
+            'phone': phone[0]
+        }
+        template = 'profile.html'
+        return render(request, template_name=template, context=context)
 
 
 def change_passwd(request):
@@ -511,7 +522,7 @@ def sav_address(request):
             data_obj = AddressModel.objects.values()
             data_obj = list(data_obj)
 
-            messages.success(request, 'Successfully saved address !')
+            messages.success(request, 'Address saved successfully  !', extra_tags='')
             return JsonResponse({'status': 'saved', 'data_obj': data_obj})
         else:
             messages.info(request, 'Address not saved !')

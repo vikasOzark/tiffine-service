@@ -67,3 +67,16 @@
   /* -ms-transform: rotate(45deg);
   -webkit-transform: rotate(45deg); */
 }
+
+.float-fav {
+  bottom: 112px;
+  border-radius: 100px;
+  text-align: center;
+  height: 36px;
+}
+
+.float:hover {
+  transform: translateY(-8px);
+  box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.198);
+  color: white;
+}

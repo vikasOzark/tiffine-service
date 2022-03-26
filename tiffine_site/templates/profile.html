@@ -39,7 +39,7 @@ fixed-bottom
         <div class="d-flex justify-content-center">
             <div class="row">
                 <div class="col">
-                    <h6><strong><i class="bi bi-telephone-fill"></i> :</strong> {{phone}}</h6>
+                    <h6 ><strong><i class="bi bi-telephone-fill"></i> : <span id="phone-num"> {{phone}}</span> </strong></h6>
                 </div>
             </div>
         </div>
@@ -240,11 +240,12 @@ fixed-bottom
                         output = ' <div class="d-flex p-2 bg-light rounded-1 border p-1 mb-2" > <p> ' + x[i].street + ',' + x[i].city + ',' + x[i].pincode + 
                             '</p></div>' 
                     };
-
+                    
                     $('#address-sec').html(output);
+                    $('#phone-num').html(x[i].phone);
                     $('#hidden-id').val('');
                     $('#address-form')[0].reset();
-                    $('#modal-close'). modal('hide');
+                    $('#modal-close').modal('hide');
                 }
             })
         })
@@ -264,7 +265,9 @@ fixed-bottom
                 data : data,
                 success : function(data){
                     if (data.status == 200){
-                        $(mythis).closest('div').fadeOut()
+                        $(mythis).closest('div').fadeOut();
+                        $('#phone-num').html('');
+                        $('#phone-num').html('{{phone}}');
                     }
                 }
 
