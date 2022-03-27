@@ -1,0 +1,13 @@
+.modal-bg {
+  background-color: rgb(59, 179, 200);
+}
+
+.shadow-x:hover {
+  transform: translateY(-5px);
+  box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.308);
+  transition: 0.3s ease-in-out;
+}
+
+.shadow-x {
+  transition: 0.3s ease-in-out;
+}

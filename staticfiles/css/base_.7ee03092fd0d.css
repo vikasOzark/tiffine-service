@@ -1,0 +1,12 @@
+* {
+  font-family: "Arimo", sans-serif;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.index {
+  z-index: 1;
+}
