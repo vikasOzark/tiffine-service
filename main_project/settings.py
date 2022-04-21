@@ -35,6 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+#test change
 
 # Application definition
 
