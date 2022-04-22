@@ -2,6 +2,17 @@
     color:rgb(0, 0, 0)
 } */
 
+/* .bg-set {
+  width: 100vw;
+  min-height: 100vw;
+  background:linear-gradient(
+    to bottom right,
+    #DD95f7, #9AADF9, #7FC9D9 100%
+  );
+
+} */
+
+
 .bg-hero {
   height: auto;
   left: 0;

@@ -65,7 +65,7 @@ fixed-bottom
             <div class="modal-dialog ">
             <div class="modal-content modal-bg ">
                 <div class="modal-header">
-                <h5 class="modal-title text-light" id="staticBackdropLabel">Change password</h5>
+                <h5 class="modal-title text-dark" id="staticBackdropLabel">Change password</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" id = 'passwd-form'>
@@ -96,8 +96,8 @@ fixed-bottom
                     </a>
                 </h4>
                 {% for addr_obj in address %}
-                    <div class=" text-light p-2 bg-success bg-opacity-50 bg-gradient rounded-1 border shadow-x p-1 mb-2" >
-                        <p class="p-1">{{addr_obj.street}}, {{addr_obj.city}}, {{addr_obj.pincode}}  
+                    <div class=" text-dark p-2 bg-light bg-gradient rounded-1 border shadow-x p-1 mb-2" >
+                        <p class="p-1 ">{{addr_obj.street}}, {{addr_obj.city}}, {{addr_obj.pincode}}  
 
                         <buttom class="float-end btn-edit m-1" id="add-{{addr_obj.id}}" data-sid="{{addr_obj.id}}" data-bs-toggle="modal" data-bs-target="#address-add" data-bs-toggle="modal" data-bs-target="#address-add">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -146,10 +146,10 @@ fixed-bottom
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Order</h4>
                 {% for order_obj in orders %}
-                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border   shadow-x p-1 mb-2" >
+                    <div class="text-dark p-2 bg-light  bg-gradient rounded-1 border   shadow-x p-1 mb-2" >
                         <h6 class="float-end  rounded shadow-sm border-end p-1 bg-light bg-opacity-50"><small>{{order_obj.date_time}}</small></h6>
                         <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
-                        <p class="m-0 text-dark"><strong class="text-light">Item :</strong> {{order_obj.item_1.name}}, {{order_obj.item_2.name}}, {{order_obj.item_3.name}}, {{order_obj.item_4.name}}, {{order_obj.item_5.name}}</p>
+                        <p class="m-0 text-dark"><strong class="text-dark">Item :</strong> {{order_obj.item_1.name}}, {{order_obj.item_2.name}}, {{order_obj.item_3.name}}, {{order_obj.item_4.name}}, {{order_obj.item_5.name}}</p>
                     </div>
                 {% empty %}
                     <p class="alert alert-info">Not found any Orders </p>
@@ -160,7 +160,7 @@ fixed-bottom
             <div class="col-md-4 col-sm-12 d-inline-block">
                 <h4 class="text-success">Payment History</h4>
                 {% for order_obj in orders %}
-                    <div class="text-light p-2 bg-success  bg-opacity-50 bg-gradient rounded-1 border shadow-x p-1 mb-2" >
+                    <div class="text-dark p-2 bg-light bg-gradient rounded-1 border shadow-x p-1 mb-2" >
                         <p class="m-0"><strong>Order ID :</strong> {{order_obj.order_id}} </p>
                         <p class="m-0"><strong>Amount :</strong> {{order_obj.amount}} </p>
                         <p class="m-0"><strong>Date :</strong> {{order_obj.date_time}} </p>

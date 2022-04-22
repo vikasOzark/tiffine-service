@@ -7,12 +7,12 @@
 <div class="container">
     
     {% for fav_obj in favorite_obj %}
-      <div class="card mb-3 d-inline-block  " style="max-width: 500px;">
+      <div class="card mt-3 mb-3 d-inline-block rounded-start shadow " style="max-width: 500px;">
         <div class="row g-0 ">
           <div class="col-md-4">
             <img src="{{fav_obj.dish_name.image.url}}" class="img-fluid rounded-start" alt="...">
           </div>
-          <div class="col-md-8 bg-gradient bg-primary bg-opacity-25">
+          <div class="col-md-8 bg-gradient bg-light">
             <div class="card-body">
               <a href="{% url 'deatail-view' fav_obj.dish_name.id %}" class="text-decoration-none text-black"><h5 class="card-title m-0">{{fav_obj.dish_name.name}}</h5></a>
               <p class="card-text m-0">{{ fav_obj.dish_name.deatil}}</p>
