@@ -33,10 +33,12 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://tiffine.herokuapp.com/']
 
 #test change
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://tiffine.herokuapp.com/'
+]
 # Application definition
 
 INSTALLED_APPS = [
