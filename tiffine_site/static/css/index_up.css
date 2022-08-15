@@ -2,19 +2,37 @@
     color:rgb(0, 0, 0)
 } */
 
-/* .bg-set {
-  width: 100vw;
-  min-height: 100vw;
-  background:linear-gradient(
-    to bottom right,
-    #DD95f7, #9AADF9, #7FC9D9 100%
-  );
-
-} */
+#body {
+   background-image: url(../images/tiffine-service.webp);
+   background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    
+}
 
 
-.bg-hero {
-  height: auto;
+
+/* center a div with flex */
+.center-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.bg-set-1 {
+
+  background:transparent;
+  box-shadow: 5px 5px 16px 10px rgba(130, 124, 110, .25);
+  border-radius: 39% 28% 64% 20% / 28% 16% 57% 66%;
+}
+.bg-set-1 img{
+  object-fit: scale-down;
+}
+
+
+/* .bg-hero {
   left: 0;
   margin: 0;
   min-height: 100%;
@@ -26,10 +44,7 @@
   z-index: -1;
   filter: blur(4px);
   -webkit-filter: blur(4px);
-}
-.hero-text {
-  margin-top: 8em;
-}
+} */
 
 .order-btn {
   padding: 0.8em;
@@ -44,4 +59,11 @@
 
 .text-shadow {
   text-shadow: 5px 5px 5px black;
+}
+
+
+.deli-text {
+  color: #000000;
+  right:3rem;
+  font-size: 3em
 }

@@ -1,6 +1,4 @@
-* {
-  font-family: "Arimo", sans-serif;
-}
+
 
 .sticky {
   position: fixed;
@@ -11,11 +9,3 @@
   z-index: 1;
 }
 
-#body {
-  width: 100vw;
-  min-height: 100vw;
-  background:linear-gradient(
-    to bottom right,
-    #38FBEF, #5BAFFC, #4eacc1 100%
-  );
-}

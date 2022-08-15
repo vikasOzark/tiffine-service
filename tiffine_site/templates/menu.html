@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="{% static 'css/menu_.css' %}" />
 
-<div class="container">
+<div class="container " >
   {% if user.is_authenticated %}
         <div class="text-center d-inline-flex float float-fav">
           <a href="{% url 'favorite-temp' %}" class="text-decoration-none mt-1 text-light" value="veg" id="veg_id"> 
@@ -98,20 +98,20 @@
     <div class="d-flex justify-content-center p-1 mt-3">
       <ul class="d-flex justify-content-evenly">
         <li class="list-inline-item">
-          <a href="{% url 'menu' 'all' %}" class="text-decoration-none">
-            <img src="{% static 'images/menu.gif' %}" alt="">
+          <a href="{% url 'menu' 'all' %}" class="text-decoration-none ">
+            <img src="{% static 'images/menu.gif' %}"  class=" rounded-circle shadow" alt="">
              <span class="text-black">All </span> <span> |</span>
           </a>
         </li>
         <li class="list-inline-item">
           <a href="{% url 'menu' 'non_veg' %}" class="text-decoration-none" id="non_veg_id" >
-            <img src="{% static 'images/menu.gif' %}" alt="">
+            <img src="{% static 'images/menu.gif' %}" class=" rounded-circle shadow" alt="">
             <span value="non_vag" id="type_non" class="text-black">Non veg </span> <span> |</span>
           </a> 
         </li>
         <li class="list-inline-item">
           <a href="{% url 'menu' 'veg' %}" class="text-decoration-none" value="veg" id="veg_id">
-            <img src="{% static 'images/pizza.gif' %}" alt="">
+            <img src="{% static 'images/pizza.gif' %}" class=" rounded-circle shadow" alt="">
             <span class="text-black">Veg</span> 
           </a>
         </li>
@@ -124,11 +124,9 @@
   <!-- <div class="col-sm-8"> -->
     <div class="d-flex justify-content-center row p-3">
       {% for items in menu_model %}
-      <div
-        class="col-sm-12 col-md-3 m-2 float-left card float-x mb-2 p-1"
-        >
-        <img src="{{items.image.url}}" class="card-img-top" alt="..." />
-        <div class="card-body">
+      <div class="col-sm-12 col-md-3 m-2 float-left card float-x mb-2 p-1 ">
+        <img src="{{items.image.url}}" class="img-thumbnail border-0" style="width:auto;height:45%" alt="..." />
+        <div class="card-" style="height: fit-content;">
           <h5 class="card-title">
             {{ items.name }}
                     
@@ -185,7 +183,12 @@
                   <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
                 </svg></button>
               {% endif %}
-
+                
+              <div class="mt-1 p-1">
+                <div class="border rounded p-2 bg-success bg-opacity-10">
+                  <p class="text-success m-0 "><strong>Get 5% off on order 2</strong></p>
+                </div>
+              </div>
         </div>
       </div>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
