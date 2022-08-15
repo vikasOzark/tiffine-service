@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['*']
 
 #test change
 CSRF_TRUSTED_ORIGINS = [
-    'https://tiffine.herokuapp.com/'
+    'https://tiffine.herokuapp.com'
 ]
 # Application definition
 
