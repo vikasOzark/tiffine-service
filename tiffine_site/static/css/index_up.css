@@ -20,20 +20,6 @@
 }
 
 
-/* .bg-hero {
-  left: 0;
-  margin: 0;
-  min-height: 100%;
-  min-width: 674px;
-  padding: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-  filter: blur(4px);
-  -webkit-filter: blur(4px);
-} */
-
 .order-btn {
   padding: 0.8em;
   font-weight: 800;

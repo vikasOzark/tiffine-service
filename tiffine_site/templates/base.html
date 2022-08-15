@@ -125,5 +125,29 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyCDXUiuLHxfia6Vr-ZGMlAhBRl7YlsmJ3A",
+          authDomain: "tiffine-1b1bb.firebaseapp.com",
+          projectId: "tiffine-1b1bb",
+          storageBucket: "tiffine-1b1bb.appspot.com",
+          messagingSenderId: "1065691528826",
+          appId: "1:1065691528826:web:899a9fb717aa59a1b185c3",
+          measurementId: "G-EEM118DS70"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+
 </body> 
 </html>
